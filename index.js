@@ -1,8 +1,16 @@
 const express = require("express");
 const axios = require("axios");
+const cors = require("cors");
 require("dotenv").config();
 
 const app = express();
+
+const corsOptions = {
+  origin: "http://localhost:3000",
+};
+
+app.use(cors(corsOptions));
+
 const port = 8080;
 
 const CLIENT_ID = process.env.CLIENT_ID;
@@ -10,15 +18,9 @@ const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const REDIRECT_URI = process.env.REDIRECT_URI;
 
 // for generating code_verifier and code_challenge for OAuth2 PKCE
+// for MAL API, code_challenge is the same as code_verifier
 const randomstring = require("randomstring");
-const crypto = require("crypto");
-const base64url = require("base64url");
-
 const code_verifier = randomstring.generate(128);
-
-const base64Digest = crypto.createHash("sha256").update(code_verifier).digest("base64");
-
-const code_challenge = base64url.fromBase64(base64Digest);
 
 // for generating state
 /**
@@ -46,10 +48,10 @@ app.get("/login", (req, res) => {
   const queryParams = new URLSearchParams({
     client_id: CLIENT_ID,
     response_type: "code",
-    code_challenge: code_challenge,
+    code_challenge: code_verifier,
     redirect_uri: REDIRECT_URI,
     state: state,
-  }).toString();
+  });
 
   res.redirect(`https://myanimelist.net/v1/oauth2/authorize?${queryParams}`);
 });
@@ -73,28 +75,58 @@ app.get("/callback", (req, res) => {
   })
     .then((response) => {
       if (response.status === 200) {
-        res.send(`<pre>${JSON.stringify(response.data, null, 2)}</pre>`);
+        const { access_token, refresh_token, expires_in } = response.data;
+
+        const queryParams = new URLSearchParams({
+          access_token,
+          refresh_token,
+          expires_in,
+        });
+
+        res.redirect(`http://localhost:3000?${queryParams}`);
       } else {
-        res.send(response);
+        res.redirect(`/?${new URLSearchParams({ error: `invalid_token` })}`);
       }
     })
     .catch((error) => res.send(error));
 });
 
-app.get("/users/angelenelm", (req, res) => {
+// As of Nov 2021, the lifetime of the access token and the refresh token is the same (31 days).
+// this behavior will be fixed in the future
+app.get("/refresh", (req, res) => {
+  const { refresh_token } = req.query;
+
+  axios({
+    method: "post",
+    url: "https://myanimelist.net/v1/oauth2/token",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Basic ${new Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString("base64")}`,
+    },
+    data: new URLSearchParams({
+      grant_type: "refresh_token",
+      refresh_token: refresh_token,
+    }),
+  })
+    .then((response) => {
+      res.send(response.data);
+    })
+    .catch((error) => {
+      res.send(error);
+    });
+});
+
+// get user profile information
+app.get("/user", (req, res) => {
+  const { access_token } = req.query;
+
   axios
-    .get("https://api.myanimelist.net/v2/users/angelenelm/animelist?status=compeleted", {
+    .get("https://api.myanimelist.net/v2/users/@me", {
       headers: {
-        "X-MAL-CLIENT-ID": CLIENT_ID,
+        Authorization: `Bearer ${access_token}`,
       },
     })
-    .then((response) => {
-      if (response.status === 200) {
-        res.send(`<pre>${JSON.stringify(response.data, null, 2)}</pre>`);
-      } else {
-        res.send(response);
-      }
-    })
+    .then((response) => res.json(response.data))
     .catch((error) => res.send(error));
 });
 
