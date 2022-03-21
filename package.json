@@ -1,5 +1,5 @@
 {
-  "name": "myanimelist-profile",
+  "name": "myanimelist-stats",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -18,7 +18,8 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
-    "randomstring": "^1.2.2"
+    "randomstring": "^1.2.2",
+    "react-router-dom": "^5.2.0"
   },
   "devDependencies": {
     "concurrently": "^7.0.0",

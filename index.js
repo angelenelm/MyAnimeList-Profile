@@ -25,7 +25,7 @@ const code_verifier = randomstring.generate(128);
 /**
  * Generates a random string containing numbers and letters
  * Used to generate state param
- * 
+ *
  * @param  {number} length The length of the string
  * @return {string} The generated string
  */
