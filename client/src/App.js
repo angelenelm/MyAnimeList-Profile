@@ -19,9 +19,7 @@ function App() {
       setProfile(data);
     };
 
-    if (token) {
-      catchErrors(fetchData());
-    }
+    catchErrors(fetchData());
   }, []);
 
   return (
@@ -49,7 +47,7 @@ function App() {
               <p>Joined at {profile?.joined_at}</p>
               <img src={profile?.picture} alt="Avatar" />
             </Route>
-
+              
             <Route exact path="/:id/anime">
                 <div>
                   <h1>All time anime stats</h1>
