@@ -22,9 +22,10 @@ const REDIRECT_URI = process.env.REDIRECT_URI;
 const randomstring = require("randomstring");
 const code_verifier = randomstring.generate(128);
 
-// for generating state
 /**
  * Generates a random string containing numbers and letters
+ * Used to generate state param
+ * 
  * @param  {number} length The length of the string
  * @return {string} The generated string
  */
@@ -118,12 +119,10 @@ app.get("/refresh", (req, res) => {
 
 // get user profile information
 app.get("/user", (req, res) => {
-  const { access_token } = req.query;
-
   axios
     .get("https://api.myanimelist.net/v2/users/@me", {
       headers: {
-        Authorization: `Bearer ${access_token}`,
+        Authorization: req.headers.authorization,
       },
     })
     .then((response) => res.json(response.data))
