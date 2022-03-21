@@ -14,9 +14,9 @@ function App() {
     const fetchData = async () => {
       const { data } = await getCurrentUserProfile();
       
-      console.log(data);
-      
-      setProfile(data);
+      if (data.status !== 401) {
+        setProfile(data);
+      }
     };
 
     catchErrors(fetchData());
@@ -42,16 +42,16 @@ function App() {
             </Route>
 
             <Route exact path="/:id">
+              
               <button onClick={logout}> Log out</button>
               <h1>{profile?.name}</h1>
               <p>Joined at {profile?.joined_at}</p>
               <img src={profile?.picture} alt="Avatar" />
+
             </Route>
               
             <Route exact path="/:id/anime">
-                <div>
-                  <h1>All time anime stats</h1>
-                </div>
+              <h1>All time anime stats</h1>
             </Route>
             <Route exact path="/:id/anime/:id">
                 <h1>[year] anime stats</h1>
