@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-d
 import { accessToken, logout, getCurrentUserProfile } from "./myanimelist";
 import { catchErrors } from "./utils";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { GlobalStyle } from "./styles";
 import { Login } from "./pages";
 
@@ -15,6 +16,9 @@ function ScrollToTop() {
 
   return null;
 }
+=======
+import "./App.css";
+>>>>>>> parent of 1d69b01 (initial globalstyle)
 =======
 import "./App.css";
 >>>>>>> parent of 1d69b01 (initial globalstyle)
