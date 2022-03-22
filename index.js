@@ -75,8 +75,6 @@ app.get("/callback", (req, res) => {
     }),
   })
     .then((response) => {
-      console.log(`Response status: ${response.status}`);
-
       if (response.status === 200) {
         const { access_token, refresh_token, expires_in } = response.data;
 
@@ -87,8 +85,7 @@ app.get("/callback", (req, res) => {
         });
 
         res.redirect(`http://localhost:3000?${queryParams}`);
-      }
-      else {
+      } else {
         res.redirect(`http://localhost:3000/?${new URLSearchParams({ error: `invalid_token` })}`);
       }
     })
