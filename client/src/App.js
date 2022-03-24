@@ -2,10 +2,31 @@ import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Switch, Route, Redirect, useLocation } from "react-router-dom";
 import { accessToken, logout, getCurrentUserProfile } from "./myanimelist";
 import { catchErrors } from "./utils";
-import { ThemeProvider } from "styled-components/macro";
-import { GlobalStyle, lightTheme, darkTheme } from "./styles";
+import styled from "styled-components/macro";
+import GlobalStyle from "./styles/GlobalStyle";
 import { ThemeToggle } from "./components";
 import { Login, Profile } from "./pages";
+
+const StyledLogoutButton = styled.button`
+  position: absolute;
+  top: 0px;
+  right: 25px;
+  background-color: var(--secondaryButtonColor);
+  color: var(--buttonTextColor);
+  text-decoration: none;
+  padding: 12px 15px;
+  margin: 20px auto;
+  border-radius: 5px;
+  display: inline-block;
+
+  &:hover,
+  &:focus {
+    text-decoration: none;
+    filter: brightness(1.05);
+  }
+
+  transition: var(--transition);
+`;
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -20,9 +41,15 @@ function ScrollToTop() {
 function App() {
   const [token, setToken] = useState(null);
   const [profile, setProfile] = useState(null);
-  const [darkMode, setDarkMode] = useState(false);
+  const [theme, setTheme] = useState("light");
 
-  const handleDarkModeChange = (event) => setDarkMode(event.target.checked);
+  const handleThemeChange = (event) => {
+    if (event.target.checked) {
+      setTheme("dark");
+    } else {
+      setTheme("light");
+    }
+  };
 
   useEffect(() => {
     setToken(accessToken);
@@ -38,42 +65,45 @@ function App() {
     catchErrors(fetchData());
   }, []);
 
+  useEffect(() => {
+    document.body.dataset.theme = theme;
+  }, [theme]);
+
   return (
     <div>
-      <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
-        <GlobalStyle />
-        <header>
-          <ThemeToggle checked={darkMode} onChange={handleDarkModeChange} />
-          <Router>
-            <ScrollToTop />
-            <Switch>
-              <Route exact path="/">
-                {!token || !profile ? <Login /> : <Redirect to="/:id" />}
-              </Route>
+      <GlobalStyle />
+      <header>
+        <ThemeToggle checked={theme === "dark"} onChange={handleThemeChange} />
+        <StyledLogoutButton onClick={logout}> Log out</StyledLogoutButton>
 
-              <Route exact path="/:id">
-                <button onClick={logout}> Log out</button>
-                <Profile />
-              </Route>
+        <Router>
+          <ScrollToTop />
+          <Switch>
+            <Route exact path="/">
+              {!token || !profile ? <Login /> : <Redirect to="/:id" />}
+            </Route>
 
-              <Route exact path="/:id/anime">
-                <h1>All time anime stats</h1>
-              </Route>
-              <Route exact path="/:id/anime/:id">
-                <h1>[year] anime stats</h1>
-              </Route>
+            <Route exact path="/:id">
+              <Profile />
+            </Route>
 
-              <Route exact path="/:id/manga/">
-                <h1>[year] manga stats</h1>
-              </Route>
+            <Route exact path="/:id/anime">
+              <h1>All time anime stats</h1>
+            </Route>
+            <Route exact path="/:id/anime/:id">
+              <h1>[year] anime stats</h1>
+            </Route>
 
-              <Route exact path="/:id/manga/:id">
-                <h1>[year] manga stats</h1>
-              </Route>
-            </Switch>
-          </Router>
-        </header>
-      </ThemeProvider>
+            <Route exact path="/:id/manga/">
+              <h1>[year] manga stats</h1>
+            </Route>
+
+            <Route exact path="/:id/manga/:id">
+              <h1>[year] manga stats</h1>
+            </Route>
+          </Switch>
+        </Router>
+      </header>
     </div>
   );
 }

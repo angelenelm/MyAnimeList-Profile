@@ -9,8 +9,8 @@ const StyledLoginContainer = styled.main`
 `;
 
 const StyledLoginButton = styled.a`
-  background-color: ${({ theme }) => theme.primaryButtonColor};
-  color: ${({ theme }) => theme.buttonTextColor};
+  background-color: var(--primaryButtonColor);
+  color: var(--buttonTextColor);
   text-decoration: none;
   padding: 15px 20px;
   margin: 20px auto;
@@ -23,7 +23,7 @@ const StyledLoginButton = styled.a`
     filter: brightness(1.2);
   }
 
-  transition: ${({ theme }) => theme.transition};
+  transition: var(--transition);
 `;
 
 const Login = () => {

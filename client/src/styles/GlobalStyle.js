@@ -1,8 +1,12 @@
 import { createGlobalStyle } from "styled-components/macro";
 import normalize from "styled-normalize";
+import variables from "./variables";
+import fonts from "./fonts";
 
 const GlobalStyle = createGlobalStyle`
   ${normalize};
+  ${variables};
+  ${fonts};
   
   html {
     box-sizing: border-box;
@@ -15,21 +19,22 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    background-color: ${({ theme }) => theme.backgroundColor};
-    color: ${({ theme }) => theme.textColor};
+    background-color: var(--backgroundColor);
+    color: var(--textColor);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    transition: ${({ theme }) => theme.transition};
+    transition: var(--transition);
+    font-family: var(--font);
   }
 
   button {
     padding: 10px 15px;
     border: none;
     border-radius: 5px;
-    background-color: ${({ theme }) => theme.secondaryButtonColor};
+    background-color: var(--secondaryButtonColor);
     cursor: pointer;
 
     &:hover,
@@ -38,7 +43,7 @@ const GlobalStyle = createGlobalStyle`
       filter: brightness(1.1);
     }
 
-    transition: ${({ theme }) => theme.transition};
+    transition: var(--transition);
   }
 `;
 

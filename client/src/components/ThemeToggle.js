@@ -3,17 +3,17 @@ import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 
 const LightModeIcon = styled(LightModeOutlinedIcon)`
-  color: ${({ theme }) => theme.textColor};
+  color: var(--textColor);
 `;
 
 const DarkModeIcon = styled(DarkModeOutlinedIcon)`
-  color: ${({ theme }) => theme.textColor};
+  color: var(--textColor);
 `;
 
 const ThemeToggleLabel = styled.label`
   position: absolute;
-  top: 20px;
-  right: 30px;
+  top: 30px;
+  right: 130px;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -23,11 +23,11 @@ const ThemeToggleSwitch = styled.div`
   position: relative;
   width: 48px;
   height: 26px;
-  background: ${({ theme }) => theme.inactiveSwitchColor};
+  background: var(--inactiveSwitchColor);
   border-radius: 26px;
   cursor: pointer;
   padding: 4px;
-  transition: ${({ theme }) => theme.transition};
+  transition: var(--transition);
 
   &:before {
     content: "";
@@ -39,7 +39,7 @@ const ThemeToggleSwitch = styled.div`
     left: 4px;
     background: #ffffff;
     transform: translate(0, -50%);
-    transition: ${({ theme }) => theme.transition};
+    transition: var(--transition);
   }
 `;
 
@@ -49,7 +49,7 @@ const ThemeToggleInput = styled.input`
   position: absolute;
 
   &:checked + ${ThemeToggleSwitch} {
-    background: ${({ theme }) => theme.activeSwitchColor};
+    background: var(--activeSwitchColor);
 
     &:before {
       transform: translate(22px, -50%);
