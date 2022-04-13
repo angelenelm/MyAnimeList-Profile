@@ -148,24 +148,73 @@ app.get("/stats", (req, res) => {
 
 // Jikan API deprecating user animelist/mangalist endpoint May 2022
 app.get("/anime", (req, res) => {
+  const { sort } = req.query;
+
+  const queryParams = new URLSearchParams({
+    fields: [
+      "alternative_titles",
+      "start_date",
+      "end_date",
+      "num_episodes",
+      "media_type",
+      "source",
+      "popularity",
+      "rank",
+      "mean",
+      "genres",
+      "studios",
+    ],
+  });
+
+  if (sort) {
+    URLSearchParams.set("sort", sort);
+  }
+
   axios
-    .get(`https://api.myanimelist.net/v2/users/@me/animelist?status=completed&sort=list_score`, {
-      headers: {
-        Authorization: req.headers.authorization,
-      },
-    })
+    .get(
+      `https://api.myanimelist.net/v2/users/@me/animelist?limit=1000&${queryParams}`,
+      {
+        headers: {
+          Authorization: req.headers.authorization,
+        },
+      }
+    )
     .then((response) => res.send(response.data))
     .catch((error) => console.error(error));
 });
 
 // Jikan API deprecating user animelist/mangalist endpoint May 2022
 app.get("/manga", (req, res) => {
+  const { sort } = req.query;
+
+  const queryParams = new URLSearchParams({
+    fields: [
+      "alternative_titles",
+      "start_date",
+      "end_date",
+      "chapters",
+      "media_type",
+      "popularity",
+      "rank",
+      "mean",
+      "genres",
+      "authors",
+    ],
+  });
+
+  if (sort) {
+    queryParams.set("sort", sort);
+  }
+
   axios
-    .get(`https://api.myanimelist.net/v2/users/@me/mangalist?status=completed&sort=list_score`, {
-      headers: {
-        Authorization: req.headers.authorization,
-      },
-    })
+    .get(
+      `https://api.myanimelist.net/v2/users/@me/mangalist?limit=1000&${queryParams}`,
+      {
+        headers: {
+          Authorization: req.headers.authorization,
+        },
+      }
+    )
     .then((response) => res.send(response.data))
     .catch((error) => console.error(error));
 });

@@ -1,15 +1,39 @@
+import { useState, useEffect } from "react";
+import { catchErrors } from "../utils";
 import { StyledUserStats } from "../styles";
+import { getUserMangaList } from "../myanimelist";
 
 const UserMangaStats = (props) => {
-  const { stats, list } = props;
-  console.log(list.data[0]);
+  const { userStats, userList } = props;
+  const [mangaList, setMangaList] = useState(props.userList);
+
+  const authors = new Set();
+  userList.data.forEach((node) => {
+    authors.add(node.node.authors[0].node.id);
+  });
+
+  // Need to update user manga list sorted by release year
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data } = await getUserMangaList("manga_start_date");
+
+      setMangaList(data);
+    };
+
+    catchErrors(fetchData());
+  }, []);
 
   return (
     <>
-      {stats && (
+      {userStats && (
         <StyledUserStats>
-          <span>{stats.completed} manga</span>
-          <span>{stats.chapters_read} chapters</span>
+          <h3>Completed stats</h3>
+          <span>{userStats.completed} manga</span>
+          <span>{userStats.chapters_read.toLocaleString("en-US")} chapters</span>
+          <span>{userStats.volumes_read.toLocaleString("en-US")} volumes</span>
+          <span>
+            {authors.size} {authors.size > 1 ? "authors" : "author"}
+          </span>
         </StyledUserStats>
       )}
     </>

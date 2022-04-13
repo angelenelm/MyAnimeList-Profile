@@ -29,9 +29,9 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [theme, setTheme] = useState("light");
   const [list, setList] = useState("anime");
-  const [stats, setStats] = useState(null);
-  const [animeList, setAnimeList] = useState([null]);
-  const [mangaList, setMangaList] = useState([null]);
+  const [userStats, setUserStats] = useState(null);
+  const [userAnimeList, setUserAnimeList] = useState(null);
+  const [userMangaList, setUserMangaList] = useState(null);
 
   const handleListChange = (event) => {
     setList(event.target.value);
@@ -55,13 +55,22 @@ function App() {
       const userMangaList = await getUserMangaList();
 
       setProfile(userProfile.data);
-      setStats(userStats.data);
-      setAnimeList(userAnimeList.data);
-      setMangaList(userMangaList.data);
+      setUserStats(userStats.data);
+      setUserAnimeList(userAnimeList.data);
+      setUserMangaList(userMangaList.data);
     };
 
     catchErrors(fetchData());
   }, []);
+
+  // Need to obtain full anime and manga lists as default offset is 10
+  useEffect(() => {
+    if (!userAnimeList) {
+      return;
+    }
+
+
+  }, [userAnimeList]);
 
   useEffect(() => {
     if (token || profile) {
@@ -89,19 +98,28 @@ function App() {
 
           <StyledContainer>
             <UserInfo profile={profile} />
-            {stats && (
+            {userStats && userAnimeList && userMangaList && (
               <>
                 <label htmlFor="list-select">Please choose a list: </label>
                 <select id="list-select" onChange={handleListChange}>
                   <option value="anime">Anime</option>
                   <option value="manga">Manga</option>
                 </select>
+
+                {list === "anime" ? (
+                  <UserAnimeStats
+                    profile={profile}
+                    userStats={userStats.anime}
+                    userList={userAnimeList}
+                  />
+                ) : (
+                  <UserMangaStats
+                    profile={profile}
+                    userStats={userStats.manga}
+                    userList={userMangaList}
+                  />
+                )}
               </>
-            )}
-            {list === "anime" ? (
-              <UserAnimeStats profile={profile} stats={stats?.anime} list={animeList} />
-            ) : (
-              <UserMangaStats profile={profile} stats={stats?.manga} list={mangaList} />
             )}
           </StyledContainer>
         </>

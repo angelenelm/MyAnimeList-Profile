@@ -1,15 +1,24 @@
 import { StyledUserStats } from "../styles";
 
 const UserAnimeStats = (props) => {
-  const { stats, list } = props;
+  const { userStats, userList } = props;
+
+  const studios = new Set();
+  userList?.data?.forEach((node) => {
+    node.node.studios.forEach((studio) => {
+      studios.add(studio.id);
+    });
+  });
 
   return (
     <>
-      {stats && (
+      {userStats && (
         <StyledUserStats>
-          <span>{stats.completed} anime</span>
-          <span>{stats.episodes_watched.toLocaleString("en-US")} episodes</span>
-          <span>{Math.round(stats.days_watched * 24).toLocaleString("en-US")} hours</span>
+          <h3>Completed stats</h3>
+          <span>{userStats.completed} anime</span>
+          <span>{userStats.episodes_watched.toLocaleString("en-US")} episodes</span>
+          <span>{Math.round(userStats.days_watched * 24).toLocaleString("en-US")} hours</span>
+          <span>{studios.size} studios</span>
         </StyledUserStats>
       )}
     </>
