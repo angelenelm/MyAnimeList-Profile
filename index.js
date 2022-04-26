@@ -129,8 +129,6 @@ app.get("/user", (req, res) => {
 // Using unofficial Jikan API as official MAL API does not have endpoint for
 // returning user's manga statistics
 app.get("/stats", (req, res) => {
-  // First get username of user currently logged in with official MAL API
-
   axios
     .get("https://api.myanimelist.net/v2/users/@me", {
       headers: {
@@ -163,22 +161,20 @@ app.get("/anime", (req, res) => {
       "mean",
       "genres",
       "studios",
+      "list_status",
     ],
   });
 
   if (sort) {
-    URLSearchParams.set("sort", sort);
+    queryParams.set("sort", sort);
   }
 
   axios
-    .get(
-      `https://api.myanimelist.net/v2/users/@me/animelist?limit=1000&${queryParams}`,
-      {
-        headers: {
-          Authorization: req.headers.authorization,
-        },
-      }
-    )
+    .get(`https://api.myanimelist.net/v2/users/@me/animelist?limit=1000&${queryParams}`, {
+      headers: {
+        Authorization: req.headers.authorization,
+      },
+    })
     .then((response) => res.send(response.data))
     .catch((error) => console.error(error));
 });
@@ -199,6 +195,7 @@ app.get("/manga", (req, res) => {
       "mean",
       "genres",
       "authors",
+      "list_status",
     ],
   });
 
@@ -206,15 +203,13 @@ app.get("/manga", (req, res) => {
     queryParams.set("sort", sort);
   }
 
+
   axios
-    .get(
-      `https://api.myanimelist.net/v2/users/@me/mangalist?limit=1000&${queryParams}`,
-      {
-        headers: {
-          Authorization: req.headers.authorization,
-        },
-      }
-    )
+    .get(`https://api.myanimelist.net/v2/users/@me/mangalist?limit=1000&${queryParams}`, {
+      headers: {
+        Authorization: req.headers.authorization,
+      },
+    })
     .then((response) => res.send(response.data))
     .catch((error) => console.error(error));
 });

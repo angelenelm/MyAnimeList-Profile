@@ -68,8 +68,6 @@ function App() {
     if (!userAnimeList) {
       return;
     }
-
-
   }, [userAnimeList]);
 
   useEffect(() => {

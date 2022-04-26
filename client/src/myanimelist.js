@@ -147,6 +147,8 @@ export const getUserProfile = () => axios.get("/user");
 
 export const getUserStats = () => axios.get(`/stats`);
 
-export const getUserAnimeList = (sort = "") => axios.get(`/anime?sort=${sort}`);
+export const getUserAnimeList = (sort = "list_score") =>
+  axios.get(`/anime?sort=${sort}`);
 
-export const getUserMangaList = (sort = "") => axios.get(`/manga?sort=${sort}`);
+export const getUserMangaList = (sort = "list_score") =>
+  axios.get(`/manga?sort=${sort}`);

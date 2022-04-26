@@ -27,7 +27,6 @@ const UserMangaStats = (props) => {
     <>
       {userStats && (
         <StyledUserStats>
-          <h3>Completed stats</h3>
           <span>{userStats.completed} manga</span>
           <span>{userStats.chapters_read.toLocaleString("en-US")} chapters</span>
           <span>{userStats.volumes_read.toLocaleString("en-US")} volumes</span>
