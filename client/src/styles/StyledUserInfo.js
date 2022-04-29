@@ -2,12 +2,13 @@ import styled from "styled-components/macro";
 
 const StyledUserInfo = styled.div`
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
+  flex-direction: column;
   max-height: 500px;
   min-height: 250px;
   padding-top: var(--spacing-xxl);
-  margin-bottom: var(--spacing-xxl);
+  margin-bottom: var(--spacing-xl);
   z-index: -1;
 
   @media (max-width: 600px) {

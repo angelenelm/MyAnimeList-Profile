@@ -19,7 +19,8 @@ import {
 } from "./components";
 
 const StyledContainer = styled.div`
-  display: block;
+  display: flex;
+  flex-direction: column;
   align-items: center;
 `;
 

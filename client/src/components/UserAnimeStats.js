@@ -1,4 +1,5 @@
-import { StyledUserStats } from "../styles";
+import { StyledUserStats, StyledSection } from "../styles";
+import { MediaGrid, ReleaseYearChart } from "../components";
 
 const UserAnimeStats = (props) => {
   const { userStats, userList } = props;
@@ -40,7 +41,7 @@ const UserAnimeStats = (props) => {
     const startDate = new Date(node.node.start_date);
     const startDateYear = startDate.getFullYear();
 
-    if (node.list_status.status === "completed" || "watching") {
+    if (node.list_status.status === "completed" || node.list_status.status === "watching") {
       // Get oldest anime in Completed or Watching
       if (!oldest) {
         oldest = node;
@@ -114,129 +115,133 @@ const UserAnimeStats = (props) => {
     <>
       {userStats && (
         <StyledUserStats>
-          <span>{userStats.completed} anime</span>
-          <span>{userStats.episodes_watched.toLocaleString("en-US")} episodes</span>
-          <span>{Math.round(userStats.days_watched * 24).toLocaleString("en-US")} hours</span>
-          <span>{Object.entries(byStudio).length} studios</span>
+          <div className="stats">
+            <div className="stats__item">
+              <span className="num">{userStats.completed}</span>
+              <span className="num-label">anime</span>
+            </div>
+            <div className="stats__item">
+              <span className="num">{userStats.episodes_watched.toLocaleString("en-US")}</span>
+              <span className="num-label">episodes</span>
+            </div>
+            <div className="stats__item">
+              <span className="num">
+                {Math.round(userStats.days_watched * 24).toLocaleString("en-US")}
+              </span>
+              <span className="num-label">hours</span>
+            </div>
+            <div className="stats__item">
+              <span className="num">{Object.entries(byStudio).length}</span>
+              <span className="num-label">studios</span>
+            </div>
+          </div>
+
+          <StyledSection>
+            <h2>Top Rated</h2>
+            <MediaGrid type="anime" mediaList={topTen} />
+          </StyledSection>
+
+          <StyledSection>
+            <h2>By Release Year</h2>
+            <ReleaseYearChart perYearList={perYear} />
+          </StyledSection>
+
+          <h2>By Media Type</h2>
+          <ul>
+            {Object.entries(byType).map((item, index) => {
+              return (
+                <li key={index}>
+                  {item[0]}: {item[1].length}
+                </li>
+              );
+            })}
+          </ul>
+
+          <h2>By Genre</h2>
+          <ul>
+            {Object.entries(byGenre).map((item, index) => {
+              return (
+                <li key={index}>
+                  {item[0]}: {item[1].length}
+                </li>
+              );
+            })}
+          </ul>
+
+          <h2>By Source</h2>
+          <ul>
+            {Object.entries(bySource).map((item, index) => {
+              return (
+                <li key={index}>
+                  {item[0]}: {item[1].length}
+                </li>
+              );
+            })}
+          </ul>
+
+          <h2>By Studio</h2>
+          <ul>
+            {Object.entries(byStudio).map((item, index) => {
+              return (
+                <li key={index}>
+                  {item[0]}: {item[1].length}
+                </li>
+              );
+            })}
+          </ul>
+
+          <h2>Oldest</h2>
+          <ul>
+            <li>
+              {oldest.node.alternative_titles.en
+                ? oldest.node.alternative_titles.en
+                : oldest.node.title}{" "}
+              ({oldest.node.start_date.slice(0, 4)})
+            </li>
+          </ul>
+
+          <h2>Newest</h2>
+          <ul>
+            <li>
+              {newest.node.alternative_titles.en
+                ? newest.node.alternative_titles.en
+                : newest.node.title}{" "}
+              ({newest.node.start_date.slice(0, 4)})
+            </li>
+          </ul>
+
+          <h2>Highest Ranked</h2>
+          <ul>
+            <li>
+              {highest.node.alternative_titles.en
+                ? highest.node.alternative_titles.en
+                : highest.node.title}{" "}
+              (Your score: {highest.list_status.score}, vs Avg score: {highest.node.mean})
+            </li>
+          </ul>
+
+          <h2>Most Popular</h2>
+          <ul>
+            <li>
+              {mostPopular.node.alternative_titles.en
+                ? mostPopular.node.alternative_titles.en
+                : mostPopular.node.title}{" "}
+              (Popularity: #{mostPopular.node.popularity}, vs #1: Attack on Titan)
+            </li>
+          </ul>
+
+          <h2>Most Number of Episodes</h2>
+          <ul>
+            <li>
+              {mostEpisodes.node.alternative_titles.en
+                ? mostEpisodes.node.alternative_titles.en
+                : mostEpisodes.node.title}{" "}
+              (Watched {mostEpisodes.list_status.num_episodes_watched} of{" "}
+              {mostEpisodes.node.num_episodes} episodes)
+            </li>
+          </ul>
         </StyledUserStats>
       )}
-
-      <h3>Top Rated</h3>
-      <ol>
-        {topTen.map((item, index) => {
-          return (
-            <li key={index}>
-              {item.node.alternative_titles.en ? item.node.alternative_titles.en : item.node.title}
-            </li>
-          );
-        })}
-      </ol>
-
-      <h3>By Release Year</h3>
-      <ul>
-        {Object.entries(perYear).map((item, index) => {
-          return (
-            <li key={index}>
-              {item[0]}: {item[1].length}
-            </li>
-          );
-        })}
-      </ul>
-
-      <h3>By Media Type</h3>
-      <ul>
-        {Object.entries(byType).map((item, index) => {
-          return (
-            <li key={index}>
-              {item[0]}: {item[1].length}
-            </li>
-          );
-        })}
-      </ul>
-
-      <h3>By Genre</h3>
-      <ul>
-        {Object.entries(byGenre).map((item, index) => {
-          return (
-            <li key={index}>
-              {item[0]}: {item[1].length}
-            </li>
-          );
-        })}
-      </ul>
-
-      <h3>By Source</h3>
-      <ul>
-        {Object.entries(bySource).map((item, index) => {
-          return (
-            <li key={index}>
-              {item[0]}: {item[1].length}
-            </li>
-          );
-        })}
-      </ul>
-
-      <h3>By Studio</h3>
-      <ul>
-        {Object.entries(byStudio).map((item, index) => {
-          return (
-            <li key={index}>
-              {item[0]}: {item[1].length}
-            </li>
-          );
-        })}
-      </ul>
-
-      <h3>Oldest</h3>
-      <ul>
-        <li>
-          {oldest.node.alternative_titles.en
-            ? oldest.node.alternative_titles.en
-            : oldest.node.title}{" "}
-          ({oldest.node.start_date.slice(0, 4)})
-        </li>
-      </ul>
-
-      <h3>Newest</h3>
-      <ul>
-        <li>
-          {newest.node.alternative_titles.en
-            ? newest.node.alternative_titles.en
-            : newest.node.title}{" "}
-          ({newest.node.start_date.slice(0, 4)})
-        </li>
-      </ul>
-
-      <h3>Highest Ranked</h3>
-      <ul>
-        <li>
-          {highest.node.alternative_titles.en
-            ? highest.node.alternative_titles.en
-            : highest.node.title}{" "}
-          (Your score: {highest.list_status.score}, vs Avg score: {highest.node.mean})
-        </li>
-      </ul>
-
-      <h3>Most Popular</h3>
-      <ul>
-        <li>
-          {mostPopular.node.alternative_titles.en
-            ? mostPopular.node.alternative_titles.en
-            : mostPopular.node.title}{" "}
-          (Popularity: #{mostPopular.node.popularity}, vs #1: Attack on Titan)
-        </li>
-      </ul>
-
-      <h3>Most Number of Episodes</h3>
-      <ul>
-        <li>
-          {mostEpisodes.node.alternative_titles.en
-            ? mostEpisodes.node.alternative_titles.en
-            : mostEpisodes.node.title}{" "}
-          (Watched {mostEpisodes.list_status.num_episodes_watched} of{" "}
-          {mostEpisodes.node.num_episodes} episodes)
-        </li>
-      </ul>
     </>
   );
 };
