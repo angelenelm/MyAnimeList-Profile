@@ -110,12 +110,14 @@ function App() {
                     profile={profile}
                     userStats={userStats.anime}
                     userList={userAnimeList}
+                    theme={theme}
                   />
                 ) : (
                   <UserMangaStats
                     profile={profile}
                     userStats={userStats.manga}
                     userList={userMangaList}
+                    theme={theme}
                   />
                 )}
               </>

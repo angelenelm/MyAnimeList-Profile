@@ -15,6 +15,11 @@ const StyledMediaGrid = styled.div`
       border-radius: var(--border-radius-subtle);
     }
 
+    &__img:hover {
+      outline: 3px solid var(--primary-color);
+      transition: var(--transition);
+    }
+
     &__score {
       font-size: var(--fz-sm);
     }

@@ -6,3 +6,6 @@ export { default as UserAnimeStats } from "./UserAnimeStats";
 export { default as UserMangaStats } from "./UserMangaStats";
 export { default as MediaGrid } from "./MediaGrid";
 export { default as ReleaseYearChart } from "./ReleaseYearChart";
+export { default as MediaTypeChart } from "./MediaTypeChart";
+export { default as SourceChart } from "./SourceChart";
+export { default as HorizontalChart } from "./HorizontalChart";

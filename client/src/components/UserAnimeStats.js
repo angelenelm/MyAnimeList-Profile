@@ -1,8 +1,14 @@
 import { StyledUserStats, StyledSection } from "../styles";
-import { MediaGrid, ReleaseYearChart } from "../components";
+import {
+  MediaGrid,
+  ReleaseYearChart,
+  MediaTypeChart,
+  SourceChart,
+  HorizontalChart,
+} from "../components";
 
 const UserAnimeStats = (props) => {
-  const { userStats, userList } = props;
+  const { userStats, userList, theme } = props;
 
   const topTen = userList.data.slice(0, 10);
 
@@ -137,58 +143,46 @@ const UserAnimeStats = (props) => {
           </div>
 
           <StyledSection>
-            <h2>Top Rated</h2>
+            <h2><span>Top Rated</span></h2>
             <MediaGrid type="anime" mediaList={topTen} />
           </StyledSection>
 
           <StyledSection>
             <h2>By Release Year</h2>
-            <ReleaseYearChart perYearList={perYear} />
+            <ReleaseYearChart perYearData={perYear} theme={theme} />
           </StyledSection>
 
-          <h2>By Media Type</h2>
-          <ul>
-            {Object.entries(byType).map((item, index) => {
-              return (
-                <li key={index}>
-                  {item[0]}: {item[1].length}
-                </li>
-              );
-            })}
-          </ul>
+          <StyledSection>
+            <div className="charts">
+              <div className="charts__chart">
+                <h2>By Media Type</h2>
+                <MediaTypeChart byMediaType={byType} theme={theme} />
+              </div>
 
-          <h2>By Genre</h2>
-          <ul>
-            {Object.entries(byGenre).map((item, index) => {
-              return (
-                <li key={index}>
-                  {item[0]}: {item[1].length}
-                </li>
-              );
-            })}
-          </ul>
+              <div className="charts__chart">
+                <h2>By Source</h2>
+                <SourceChart bySource={bySource} theme={theme} />
+              </div>
+            </div>
+          </StyledSection>
 
-          <h2>By Source</h2>
-          <ul>
-            {Object.entries(bySource).map((item, index) => {
-              return (
-                <li key={index}>
-                  {item[0]}: {item[1].length}
-                </li>
-              );
-            })}
-          </ul>
+          <StyledSection>
+            <div className="charts">
+              <div className="charts__chart">
+                <h2>By Genre</h2>
+                <HorizontalChart userDataset={byGenre} theme={theme} />
+              </div>
 
-          <h2>By Studio</h2>
-          <ul>
-            {Object.entries(byStudio).map((item, index) => {
-              return (
-                <li key={index}>
-                  {item[0]}: {item[1].length}
-                </li>
-              );
-            })}
-          </ul>
+              <div className="charts__chart">
+                <h2>By Studio</h2>
+                <HorizontalChart userDataset={byStudio} theme={theme} />
+              </div>
+            </div>
+          </StyledSection>
+
+          <StyledSection>
+            <h2>Milestones</h2>
+          </StyledSection>
 
           <h2>Oldest</h2>
           <ul>

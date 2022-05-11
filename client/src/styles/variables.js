@@ -17,7 +17,7 @@ const variables = css`
     --secondary-button-color: var(--color-pigeon-post);
     --button-text-color: var(--color-white);
 
-    --transition: all 0.2s ease-in-out;
+    --transition: all 0.1s ease-in-out;
 
     --font: "Whitney", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
 
