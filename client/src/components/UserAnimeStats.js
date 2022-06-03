@@ -143,7 +143,9 @@ const UserAnimeStats = (props) => {
           </div>
 
           <StyledSection>
-            <h2><span>Top Rated</span></h2>
+            <h2>
+              <span>Top Rated</span>
+            </h2>
             <MediaGrid type="anime" mediaList={topTen} />
           </StyledSection>
 
