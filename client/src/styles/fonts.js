@@ -2,42 +2,46 @@ import { css } from "styled-components/macro";
 
 const fonts = css`
   @font-face {
-    font-family: "Whitney";
-    src: url("../public/fonts/Whitney-Book.woff2") format("woff2")
-      url("../public/fonts/Whitney-Book.woff") format("woff");
-    font-weight: 400;
-    font-style: normal;
-  }
-
-  @font-face {
-    font-family: "Whitney";
-    src: url("../public/fonts/Whitney-BookItalic.woff2") format("woff2")
-      url("../public/fonts/Whitney-BookItalic.woff") format("woff");
-    font-weight: 400;
-    font-style: italic;
-  }
-
-  @font-face {
-    font-family: "Whitney";
-    src: url("../public/fonts/Whitney-Semibold.woff2") format("woff2")
-      url("../public/fonts/Whitney-Semibold.woff") format("woff");
-    font-weight: 600;
-    font-style: normal;
-  }
-
-  @font-face {
-    font-family: "Whitney";
-    src: url("../public/fonts/Whitney-SemiboldItalic.woff2") format("woff2")
-      url("../public/fonts/Whitney-SemiboldItalic.woff") format("woff");
-    font-weight: 600;
-    font-style: italic;
-  }
-
-  @font-face {
-    font-family: "Whitney";
-    src: url("../public/fonts/Whitney-Bold.woff2") format("woff2")
-      url("../public/fonts/Whitney-Bold.woff") format("woff");
+    font-family: "Inter";
+    src: url("../public/fonts/Inter/Inter-Bold.woff2") format("woff2"),
+      url("../public/fonts/Inter/Inter-Bold.woff") format("woff");
     font-weight: bold;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "Inter";
+    src: url("../public/fonts/Inter/Inter-SemiBoldItalic.woff2") format("woff2"),
+      url("../public/fonts/Inter/Inter-SemiBoldItalic.woff") format("woff");
+    font-weight: 600;
+    font-style: italic;
+  }
+  @font-face {
+    font-family: "Inter";
+    src: url("../public/fonts/Inter/Inter-BoldItalic.woff2") format("woff2"),
+      url("../public/fonts/Inter/Inter-BoldItalic.woff") format("woff");
+    font-weight: bold;
+    font-style: italic;
+  }
+
+  @font-face {
+    font-family: "Inter";
+    src: url("../public/fonts/Inter/Inter-Italic.woff2") format("woff2"),
+      url("../public/fonts/Inter/Inter-Italic.woff") format("woff");
+    font-weight: normal;
+    font-style: italic;
+  }
+  @font-face {
+    font-family: "Inter";
+    src: url("../public/fonts/Inter/Inter-Regular.woff2") format("woff2"),
+      url("../public/fonts/Inter/Inter-Regular.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "Inter";
+    src: url("../public/fonts/Inter/Inter-SemiBold.woff2") format("woff2"),
+      url("../public/fonts/Inter/Inter-SemiBold.woff") format("woff");
+    font-weight: 600;
     font-style: normal;
   }
 `;

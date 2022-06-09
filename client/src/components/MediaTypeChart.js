@@ -30,15 +30,15 @@ const MediaTypeChart = ({ byMediaType, theme }) => {
     legend: {
       position: "right",
       labels: {
-        fontFamily: "'Whitney', -apple-system, BlinkMacSystemFont, system-ui, sans-serif",
+        fontFamily: getComputedStyle(document.body).getPropertyValue("--font"),
         fontSize: 14,
         fontColor: theme === "dark" ? "#e7e7e7" : "#171c28",
       },
     },
     tooltips: {
       displayColors: false,
-      titleFontFamily: "'Whitney', -apple-system, BlinkMacSystemFont, system-ui, sans-serif",
-      bodyFontFamily: "'Whitney', -apple-system, BlinkMacSystemFont, system-ui, sans-serif",
+      titleFontFamily: getComputedStyle(document.body).getPropertyValue("--font"),
+      bodyFontFamily: getComputedStyle(document.body).getPropertyValue("--font"),
       bodyFontSize: 14,
     },
   };

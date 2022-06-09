@@ -10,6 +10,10 @@ const StyledSection = styled.div`
     margin-bottom: var(--spacing-xl);
   }
 
+  .chart {
+    max-height: 500px;
+  }
+
   .charts {
     display: grid;
     grid-template-columns: repeat(2, 1fr);

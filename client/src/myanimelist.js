@@ -34,7 +34,7 @@ const refreshToken = async () => {
     }
 
     const { data } = await axios.get(
-      `http://localhost:8080/refresh?refresh_token=${LOCALSTORAGE_ITEMS.myanimelist_access_token}`
+      `http://localhost:8888/refresh?refresh_token=${LOCALSTORAGE_ITEMS.myanimelist_access_token}`
     );
 
     window.localStorage.setItem("myanimelist_access_token", data.access_token);
@@ -133,7 +133,7 @@ export const accessToken = getAccessToken();
  *
  * Making all API requests through Express server to avoid CORS errors
  */
-axios.defaults.baseURL = `http://localhost:8080`;
+axios.defaults.baseURL = `http://localhost:8888`;
 axios.defaults.headers["Authorization"] = `Bearer ${accessToken}`;
 axios.defaults.headers["Content-Type"] = "application/json";
 
@@ -147,8 +147,6 @@ export const getUserProfile = () => axios.get("/user");
 
 export const getUserStats = () => axios.get(`/stats`);
 
-export const getUserAnimeList = (sort = "list_score") =>
-  axios.get(`/anime?sort=${sort}`);
+export const getUserAnimeList = (sort = "list_score") => axios.get(`/anime?sort=${sort}`);
 
-export const getUserMangaList = (sort = "list_score") =>
-  axios.get(`/manga?sort=${sort}`);
+export const getUserMangaList = (sort = "list_score") => axios.get(`/manga?sort=${sort}`);

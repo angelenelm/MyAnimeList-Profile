@@ -1,8 +1,8 @@
 import styled from "styled-components/macro";
 
-const StyledMediaGrid = styled.div`
+const StyledMilestonesGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(10, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   grid-gap: 0.5rem;
   justify-content: center;
 
@@ -20,10 +20,13 @@ const StyledMediaGrid = styled.div`
       transition: var(--transition);
     }
 
-    &__score {
-      font-size: var(--fz-sm);
+    &__label {
+      text-transform: uppercase;
+      font-size: 1rem;
+      letter-spacing: 1px;
+      margin-top: 0.35rem;
     }
   }
 `;
 
-export default StyledMediaGrid;
+export default StyledMilestonesGrid;

@@ -1,6 +1,6 @@
 import { StyledUserStats, StyledSection } from "../styles";
 import {
-  MediaGrid,
+  TopRatedGrid,
   ReleaseYearChart,
   MediaTypeChart,
   SourceChart,
@@ -26,6 +26,9 @@ const UserAnimeStats = (props) => {
 
   // Get number of anime by studio
   const byStudio = {};
+
+  // Home for oldest, newest, highestRanked, mostPopular, & mostEpisodes
+  const milestones = {};
 
   // Oldest anime in Completed or Watching
   let oldest;
@@ -117,6 +120,21 @@ const UserAnimeStats = (props) => {
     }
   });
 
+  // Add oldest anime to milestones
+  milestones.oldest = oldest;
+
+  // Add newest anime to milestones
+  milestones.newest = newest;
+
+  // Add highest ranked anime to milestones
+  milestones.highestRanked = highest;
+
+  // Add most popular anime to milestones
+  milestones.mostPopular = mostPopular;
+
+  // Add most number of episodes anime to milestones
+  milestones.mostEpisodes = mostEpisodes;
+
   return (
     <>
       {userStats && (
@@ -146,12 +164,14 @@ const UserAnimeStats = (props) => {
             <h2>
               <span>Top Rated</span>
             </h2>
-            <MediaGrid type="anime" mediaList={topTen} />
+            <TopRatedGrid type="anime" mediaList={topTen} />
           </StyledSection>
 
           <StyledSection>
             <h2>By Release Year</h2>
-            <ReleaseYearChart perYearData={perYear} theme={theme} />
+            <div className="chart">
+              <ReleaseYearChart perYearData={perYear} theme={theme} />
+            </div>
           </StyledSection>
 
           <StyledSection>
@@ -184,58 +204,58 @@ const UserAnimeStats = (props) => {
 
           <StyledSection>
             <h2>Milestones</h2>
+
+            <p className="milestone-label">Oldest</p>
+            <ul>
+              <li>
+                {oldest.node.alternative_titles.en
+                  ? oldest.node.alternative_titles.en
+                  : oldest.node.title}{" "}
+                ({oldest.node.start_date.slice(0, 4)})
+              </li>
+            </ul>
+
+            <p className="milestone-label">Newest</p>
+            <ul>
+              <li>
+                {newest.node.alternative_titles.en
+                  ? newest.node.alternative_titles.en
+                  : newest.node.title}{" "}
+                ({newest.node.start_date.slice(0, 4)})
+              </li>
+            </ul>
+
+            <p className="milestone-label">Highest Ranked</p>
+            <ul>
+              <li>
+                {highest.node.alternative_titles.en
+                  ? highest.node.alternative_titles.en
+                  : highest.node.title}{" "}
+                (Your score: {highest.list_status.score}, vs Avg score: {highest.node.mean})
+              </li>
+            </ul>
+
+            <p className="milestone-label">Most Popular</p>
+            <ul>
+              <li>
+                {mostPopular.node.alternative_titles.en
+                  ? mostPopular.node.alternative_titles.en
+                  : mostPopular.node.title}{" "}
+                (Popularity: #{mostPopular.node.popularity}, vs #1: Attack on Titan)
+              </li>
+            </ul>
+
+            <p className="milestone-label">Most Number of Episodes</p>
+            <ul>
+              <li>
+                {mostEpisodes.node.alternative_titles.en
+                  ? mostEpisodes.node.alternative_titles.en
+                  : mostEpisodes.node.title}{" "}
+                (Watched {mostEpisodes.list_status.num_episodes_watched} of{" "}
+                {mostEpisodes.node.num_episodes} episodes)
+              </li>
+            </ul>
           </StyledSection>
-
-          <h2>Oldest</h2>
-          <ul>
-            <li>
-              {oldest.node.alternative_titles.en
-                ? oldest.node.alternative_titles.en
-                : oldest.node.title}{" "}
-              ({oldest.node.start_date.slice(0, 4)})
-            </li>
-          </ul>
-
-          <h2>Newest</h2>
-          <ul>
-            <li>
-              {newest.node.alternative_titles.en
-                ? newest.node.alternative_titles.en
-                : newest.node.title}{" "}
-              ({newest.node.start_date.slice(0, 4)})
-            </li>
-          </ul>
-
-          <h2>Highest Ranked</h2>
-          <ul>
-            <li>
-              {highest.node.alternative_titles.en
-                ? highest.node.alternative_titles.en
-                : highest.node.title}{" "}
-              (Your score: {highest.list_status.score}, vs Avg score: {highest.node.mean})
-            </li>
-          </ul>
-
-          <h2>Most Popular</h2>
-          <ul>
-            <li>
-              {mostPopular.node.alternative_titles.en
-                ? mostPopular.node.alternative_titles.en
-                : mostPopular.node.title}{" "}
-              (Popularity: #{mostPopular.node.popularity}, vs #1: Attack on Titan)
-            </li>
-          </ul>
-
-          <h2>Most Number of Episodes</h2>
-          <ul>
-            <li>
-              {mostEpisodes.node.alternative_titles.en
-                ? mostEpisodes.node.alternative_titles.en
-                : mostEpisodes.node.title}{" "}
-              (Watched {mostEpisodes.list_status.num_episodes_watched} of{" "}
-              {mostEpisodes.node.num_episodes} episodes)
-            </li>
-          </ul>
         </StyledUserStats>
       )}
     </>

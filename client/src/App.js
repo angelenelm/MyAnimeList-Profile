@@ -16,6 +16,7 @@ import {
   UserInfo,
   UserAnimeStats,
   UserMangaStats,
+  Footer,
 } from "./components";
 
 const StyledContainer = styled.div`
@@ -88,13 +89,12 @@ function App() {
       <GlobalStyle />
       <header>
         <ThemeToggle checked={theme === "dark"} onChange={handleThemeChange} />
+        {!loggedIn ? <></> : <LogoutButton />}
       </header>
       {!loggedIn ? (
         <Login />
       ) : (
         <>
-          <LogoutButton />
-
           <StyledContainer>
             <UserInfo profile={profile} />
             {userStats && userAnimeList && userMangaList && (
@@ -122,6 +122,7 @@ function App() {
                 )}
               </>
             )}
+            <Footer />
           </StyledContainer>
         </>
       )}

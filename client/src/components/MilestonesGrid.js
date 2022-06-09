@@ -1,9 +1,9 @@
 import React from "react";
-import { StyledMediaGrid } from "../styles";
+import { StyledMilestonesGrid } from "../styles";
 
-const MediaGrid = ({ type, mediaList }) => {
+const MilestonesGrid = ({ type, mediaList }) => {
   return (
-    <StyledMediaGrid>
+    <StyledMilestonesGrid>
       {mediaList.map((item, index) => {
         return (
           <div key={index} className="media">
@@ -26,8 +26,8 @@ const MediaGrid = ({ type, mediaList }) => {
           </div>
         );
       })}
-    </StyledMediaGrid>
+    </StyledMilestonesGrid>
   );
 };
 
-export default MediaGrid;
+export default MilestonesGrid;

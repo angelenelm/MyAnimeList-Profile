@@ -29,7 +29,7 @@ const ReleaseYearChart = ({ perYearData, theme }) => {
   };
 
   /**
-   * Custom positioner
+   * Custom tooltip positioner
    * @function Tooltip.positioners.customVertical
    * @param elements {Chart.Element[]} the tooltip elements
    * @param eventPosition {Point} the position of the event in canvas coordinates
@@ -38,11 +38,12 @@ const ReleaseYearChart = ({ perYearData, theme }) => {
   Tooltip.positioners.customVertical = (elements, eventPosition) => {
     return {
       x: eventPosition.x,
-      y: 230,
+      y: 100,
     };
   };
 
   const options = {
+    maintainAspectRatio: false,
     responsive: true,
     legend: {
       display: false,
@@ -55,10 +56,10 @@ const ReleaseYearChart = ({ perYearData, theme }) => {
       displayColors: false,
       titleAlign: "center",
       titleMarginBottom: 10,
-      titleFontFamily: "'Whitney', -apple-system, BlinkMacSystemFont, system-ui, sans-serif",
+      titleFontFamily: getComputedStyle(document.body).getPropertyValue("--font"),
       titleFontSize: 16,
       bodyAlign: "center",
-      bodyFontFamily: "'Whitney', -apple-system, BlinkMacSystemFont, system-ui, sans-serif",
+      bodyFontFamily: getComputedStyle(document.body).getPropertyValue("--font"),
       bodyFontSize: 14,
       caretSize: 0,
       xPadding: 15,
@@ -77,7 +78,7 @@ const ReleaseYearChart = ({ perYearData, theme }) => {
           },
           ticks: {
             maxTicksLimit: 1,
-            fontFamily: "'Whitney', -apple-system, BlinkMacSystemFont, system-ui, sans-serif",
+            fontFamily: getComputedStyle(document.body).getPropertyValue("--font"),
             fontColor: theme === "dark" ? "#e7e7e7" : "#171c28",
             fontSize: 14,
             maxRotation: 0,

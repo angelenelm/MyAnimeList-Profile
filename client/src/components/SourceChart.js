@@ -20,7 +20,7 @@ const SourceChart = ({ bySource, theme }) => {
           "rgba(46, 81, 162, 0.25)",
           "rgba(46, 81, 162, 0.10)",
         ],
-        borderWidth: 0
+        borderWidth: 0,
       },
     ],
   };
@@ -30,15 +30,15 @@ const SourceChart = ({ bySource, theme }) => {
     legend: {
       position: "right",
       labels: {
-        fontFamily: "'Whitney', -apple-system, BlinkMacSystemFont, system-ui, sans-serif",
+        fontFamily: getComputedStyle(document.body).getPropertyValue("--font"),
         fontSize: 14,
-        fontColor: (theme === "dark" ? "#e7e7e7" : "#171c28"),
+        fontColor: theme === "dark" ? "#e7e7e7" : "#171c28",
       },
     },
     tooltips: {
       displayColors: false,
-      titleFontFamily: "'Whitney', -apple-system, BlinkMacSystemFont, system-ui, sans-serif",
-      bodyFontFamily: "'Whitney', -apple-system, BlinkMacSystemFont, system-ui, sans-serif",
+      titleFontFamily: getComputedStyle(document.body).getPropertyValue("--font"),
+      bodyFontFamily: getComputedStyle(document.body).getPropertyValue("--font"),
       bodyFontSize: 14,
     },
   };

@@ -19,7 +19,7 @@ const variables = css`
 
     --transition: all 0.1s ease-in-out;
 
-    --font: "Whitney", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    --font: "Inter", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
 
     --fz-xxs: 12px;
     --fz-xs: 13px;

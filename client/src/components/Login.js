@@ -30,7 +30,7 @@ const Login = () => {
   return (
     <StyledLoginContainer>
       <h1>MyAnimeList Stats</h1>
-      <StyledLoginButton href="http://localhost:8080/login">
+      <StyledLoginButton href="http://localhost:8888/login">
         Log in to MyAnimeList
       </StyledLoginButton>
     </StyledLoginContainer>

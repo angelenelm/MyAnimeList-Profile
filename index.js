@@ -5,7 +5,7 @@ const cors = require("cors");
 require("dotenv").config();
 
 const app = express();
-const port = 8080;
+const port = 8888;
 
 const corsOptions = {
   origin: "http://localhost:3000",
@@ -202,7 +202,6 @@ app.get("/manga", (req, res) => {
   if (sort) {
     queryParams.set("sort", sort);
   }
-
 
   axios
     .get(`https://api.myanimelist.net/v2/users/@me/mangalist?limit=1000&${queryParams}`, {
