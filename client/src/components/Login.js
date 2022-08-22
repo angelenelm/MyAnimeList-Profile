@@ -1,11 +1,11 @@
 import styled from "styled-components/macro";
 
-const StyledLoginContainer = styled.main`
+const StyledLoginContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: calc(100vh - 100px - var(--spacing-xxl));
 `;
 
 const StyledLoginButton = styled.a`
@@ -14,7 +14,7 @@ const StyledLoginButton = styled.a`
   text-decoration: none;
   padding: var(--spacing-sm) var(--spacing-md);
   margin: var(--spacing-md) auto;
-  border-radius: var(--border-radius-subtle);
+  border-radius: var(--border-radius-xs);
   display: inline-block;
 
   &:hover,

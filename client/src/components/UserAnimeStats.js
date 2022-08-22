@@ -5,6 +5,7 @@ import {
   MediaTypeChart,
   SourceChart,
   HorizontalChart,
+  MilestonesGrid,
 } from "../components";
 
 const UserAnimeStats = (props) => {
@@ -162,7 +163,7 @@ const UserAnimeStats = (props) => {
 
           <StyledSection>
             <h2>
-              <span>Top Rated</span>
+              <span>Top 10 Rated</span>
             </h2>
             <TopRatedGrid type="anime" mediaList={topTen} />
           </StyledSection>
@@ -204,57 +205,7 @@ const UserAnimeStats = (props) => {
 
           <StyledSection>
             <h2>Milestones</h2>
-
-            <p className="milestone-label">Oldest</p>
-            <ul>
-              <li>
-                {oldest.node.alternative_titles.en
-                  ? oldest.node.alternative_titles.en
-                  : oldest.node.title}{" "}
-                ({oldest.node.start_date.slice(0, 4)})
-              </li>
-            </ul>
-
-            <p className="milestone-label">Newest</p>
-            <ul>
-              <li>
-                {newest.node.alternative_titles.en
-                  ? newest.node.alternative_titles.en
-                  : newest.node.title}{" "}
-                ({newest.node.start_date.slice(0, 4)})
-              </li>
-            </ul>
-
-            <p className="milestone-label">Highest Ranked</p>
-            <ul>
-              <li>
-                {highest.node.alternative_titles.en
-                  ? highest.node.alternative_titles.en
-                  : highest.node.title}{" "}
-                (Your score: {highest.list_status.score}, vs Avg score: {highest.node.mean})
-              </li>
-            </ul>
-
-            <p className="milestone-label">Most Popular</p>
-            <ul>
-              <li>
-                {mostPopular.node.alternative_titles.en
-                  ? mostPopular.node.alternative_titles.en
-                  : mostPopular.node.title}{" "}
-                (Popularity: #{mostPopular.node.popularity}, vs #1: Attack on Titan)
-              </li>
-            </ul>
-
-            <p className="milestone-label">Most Number of Episodes</p>
-            <ul>
-              <li>
-                {mostEpisodes.node.alternative_titles.en
-                  ? mostEpisodes.node.alternative_titles.en
-                  : mostEpisodes.node.title}{" "}
-                (Watched {mostEpisodes.list_status.num_episodes_watched} of{" "}
-                {mostEpisodes.node.num_episodes} episodes)
-              </li>
-            </ul>
+            <MilestonesGrid type="anime" mediaList={milestones} />
           </StyledSection>
         </StyledUserStats>
       )}

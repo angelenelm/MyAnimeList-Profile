@@ -9,4 +9,6 @@ export { default as ReleaseYearChart } from "./ReleaseYearChart";
 export { default as MediaTypeChart } from "./MediaTypeChart";
 export { default as SourceChart } from "./SourceChart";
 export { default as HorizontalChart } from "./HorizontalChart";
+export { default as MilestonesGrid } from "./MilestonesGrid";
 export { default as Footer } from "./Footer";
+export { default as Loader } from "./Loader";

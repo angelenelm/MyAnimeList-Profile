@@ -27,12 +27,24 @@ const UserMangaStats = (props) => {
     <>
       {userStats && (
         <StyledUserStats>
-          <span>{userStats.completed} manga</span>
-          <span>{userStats.chapters_read.toLocaleString("en-US")} chapters</span>
-          <span>{userStats.volumes_read.toLocaleString("en-US")} volumes</span>
-          <span>
-            {authors.size} {authors.size > 1 ? "authors" : "author"}
-          </span>
+          <div className="stats">
+            <div className="stats__item">
+              <span className="num">{userStats.completed}</span>
+              <span className="num-label">manga</span>
+            </div>
+            <div className="stats__item">
+              <span className="num">{userStats.chapters_read.toLocaleString("en-US")}</span>
+              <span className="num-label">chapters</span>
+            </div>
+            <div className="stats__item">
+              <span className="num">{userStats.volumes_read.toLocaleString("en-US")}</span>
+              <span className="num-label">volumes</span>
+            </div>
+            <div className="stats__item">
+              <span className="num">{authors.size}</span>
+              <span className="num-label">authors</span>
+            </div>
+          </div>
         </StyledUserStats>
       )}
     </>

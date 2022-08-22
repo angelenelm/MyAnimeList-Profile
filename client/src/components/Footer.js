@@ -4,20 +4,11 @@ const Footer = () => {
   return (
     <>
       <StyledFooter>
-        <span>Built with </span>
-        <a href="https://www.reactjs.org/" target="_blank" rel="noopener noreferrer">
-          React
+        <span>Designed &amp; built by </span>
+        <a href="https://github.com/angelenelm" target="blank">
+          angelenelm
         </a>
-        <span>, </span>
-        <a href="https://www.chartjs.org/" target="_blank" rel="noopener noreferrer">
-          Chart.js
-        </a>
-        <span>, & </span>
-        <a href="https://www.styled-components.com/" target="_blank" rel="noopener noreferrer">
-          Styled Components
-        </a>
-        <span> by </span>
-        <a href="https://github.com/angelenelm">angelenelm</a> 👩🏻‍💻
+        <span> 👩🏻‍💻</span>
       </StyledFooter>
     </>
   );

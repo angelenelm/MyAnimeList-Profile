@@ -5,3 +5,4 @@ export { default as StyledSection } from "./StyledSection";
 export { default as StyledTopRatedGrid } from "./StyledTopRatedGrid";
 export { default as StyledFooter } from "./StyledFooter";
 export { default as StyledMilestonesGrid } from "./StyledMilestonesGrid";
+export { default as StyledLoader } from "./StyledLoader";

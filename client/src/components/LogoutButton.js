@@ -6,9 +6,9 @@ const StyledLogoutButton = styled.button`
   display: inline-block;
   top: var(--spacing-sm);
   right: var(--spacing-md);
-  padding: var(--spacing-xs) var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
   border: none;
-  border-radius: var(--border-radius-subtle);
+  border-radius: var(--border-radius-xs);
   background-color: var(--secondary-button-color);
   color: var(--button-text-color);
   text-decoration: none;

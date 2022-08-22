@@ -5,9 +5,25 @@ const StyledSection = styled.div`
   margin-bottom: var(--spacing-xxl);
 
   h2 {
-    display: flex;
+    position: relative;
     margin-top: var(--spacing-xl);
     margin-bottom: var(--spacing-xl);
+  }
+
+  h2 span {
+    background-color: var(--bg-color);
+    padding-right: 10px;
+  }
+
+  h2:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 0.5em;
+    border-top: 1px solid var(--color-gull-gray);
+    z-index: -1;
   }
 
   .chart {

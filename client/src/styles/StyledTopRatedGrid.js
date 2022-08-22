@@ -3,16 +3,17 @@ import styled from "styled-components/macro";
 const StyledTopRatedGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(10, 1fr);
-  grid-gap: 0.5rem;
-  justify-content: center;
 
   .media {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
     &__img {
       width: 100px;
       border: 1px solid var(--color-gull-gray);
-      border-radius: var(--border-radius-subtle);
+      border-radius: var(--border-radius-xs);
+      margin-bottom: var(--spacing-xxs);
     }
 
     &__img:hover {
@@ -21,6 +22,7 @@ const StyledTopRatedGrid = styled.div`
     }
 
     &__score {
+      text-align: center;
       font-size: var(--fz-sm);
     }
   }

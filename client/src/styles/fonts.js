@@ -1,6 +1,7 @@
 import { css } from "styled-components/macro";
 
 const fonts = css`
+  // Inter
   @font-face {
     font-family: "Inter";
     src: url("../public/fonts/Inter/Inter-Bold.woff2") format("woff2"),

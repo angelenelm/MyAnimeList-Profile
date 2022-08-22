@@ -13,6 +13,7 @@ import {
   LogoutButton,
   ThemeToggle,
   Login,
+  Loader,
   UserInfo,
   UserAnimeStats,
   UserMangaStats,
@@ -25,12 +26,16 @@ const StyledContainer = styled.div`
   align-items: center;
 `;
 
+const storedTheme = window.localStorage.getItem("malstats_theme");
+const storedList = window.localStorage.getItem("malstats_list");
+
 function App() {
   const [token, setToken] = useState(null);
   const [profile, setProfile] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false);
-  const [theme, setTheme] = useState("light");
-  const [list, setList] = useState("anime");
+  const [theme, setTheme] = useState(storedTheme);
+  const [list, setList] = useState(storedList);
+  const [loading, setLoading] = useState(false);
   const [userStats, setUserStats] = useState(null);
   const [userAnimeList, setUserAnimeList] = useState(null);
   const [userMangaList, setUserMangaList] = useState(null);
@@ -48,6 +53,8 @@ function App() {
   };
 
   useEffect(() => {
+    setLoading(true);
+
     setToken(accessToken);
 
     const fetchData = async () => {
@@ -63,13 +70,23 @@ function App() {
     };
 
     catchErrors(fetchData());
+
+    setLoading(false);
   }, []);
+
+  useEffect(() => {
+    window.localStorage.setItem("malstats_list", list);
+  }, [list]);
 
   // Need to obtain full anime and manga lists as default offset is 10
   useEffect(() => {
+    setLoading(true);
+
     if (!userAnimeList) {
       return;
     }
+
+    setLoading(false);
   }, [userAnimeList]);
 
   useEffect(() => {
@@ -82,6 +99,7 @@ function App() {
 
   useEffect(() => {
     document.body.dataset.theme = theme;
+    window.localStorage.setItem("malstats_theme", theme);
   }, [theme]);
 
   return (
@@ -91,41 +109,47 @@ function App() {
         <ThemeToggle checked={theme === "dark"} onChange={handleThemeChange} />
         {!loggedIn ? <></> : <LogoutButton />}
       </header>
-      {!loggedIn ? (
-        <Login />
-      ) : (
-        <>
-          <StyledContainer>
-            <UserInfo profile={profile} />
-            {userStats && userAnimeList && userMangaList && (
+      <StyledContainer>
+        {!loggedIn ? (
+          <Login />
+        ) : (
+          <>
+            {!loading ? (
               <>
-                <label htmlFor="list-select">Please choose a list: </label>
-                <select id="list-select" onChange={handleListChange}>
-                  <option value="anime">Anime</option>
-                  <option value="manga">Manga</option>
-                </select>
+                <UserInfo profile={profile} />
+                {userStats && userAnimeList && userMangaList && (
+                  <>
+                    <label htmlFor="list-select">View: </label>
+                    <select id="list-select" onChange={handleListChange} value={list}>
+                      <option value="anime">Anime</option>
+                      <option value="manga">Manga</option>
+                    </select>
 
-                {list === "anime" ? (
-                  <UserAnimeStats
-                    profile={profile}
-                    userStats={userStats.anime}
-                    userList={userAnimeList}
-                    theme={theme}
-                  />
-                ) : (
-                  <UserMangaStats
-                    profile={profile}
-                    userStats={userStats.manga}
-                    userList={userMangaList}
-                    theme={theme}
-                  />
+                    {list === "anime" ? (
+                      <UserAnimeStats
+                        profile={profile}
+                        userStats={userStats.anime}
+                        userList={userAnimeList}
+                        theme={theme}
+                      />
+                    ) : (
+                      <UserMangaStats
+                        profile={profile}
+                        userStats={userStats.manga}
+                        userList={userMangaList}
+                        theme={theme}
+                      />
+                    )}
+                  </>
                 )}
               </>
+            ) : (
+              <Loader />
             )}
-            <Footer />
-          </StyledContainer>
-        </>
-      )}
+          </>
+        )}
+      </StyledContainer>
+      <Footer />
     </>
   );
 }

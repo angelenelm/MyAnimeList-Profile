@@ -37,7 +37,8 @@ const variables = css`
     --spacing-xl: 32px;
     --spacing-xxl: 64px;
 
-    --border-radius-subtle: 5px;
+    --border-radius-xs: 5px;
+    --border-radius-sm: 8px;
     --border-radius-pill: 30px;
 
     --site-max-width: 1300px;
