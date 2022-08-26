@@ -4,11 +4,13 @@ const Footer = () => {
   return (
     <>
       <StyledFooter>
+        
+        
         <span>Designed &amp; built by </span>
-        <a href="https://github.com/angelenelm" target="blank">
+        <a href="https://angelenelm.github.io/" target="blank">
           angelenelm
         </a>
-        <span> 👩🏻‍💻</span>
+        <span> 👩🏻‍💻  2022</span>
       </StyledFooter>
     </>
   );

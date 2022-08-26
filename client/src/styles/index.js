@@ -1,4 +1,5 @@
 export { default as GlobalStyle } from "./GlobalStyle";
+export { default as StyledContainer } from "./StyledContainer";
 export { default as StyledUserInfo } from "./StyledUserInfo";
 export { default as StyledUserStats } from "./StyledUserStats";
 export { default as StyledSection } from "./StyledSection";

@@ -2,10 +2,11 @@ import styled from "styled-components/macro";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 
+const ThemeToggleWrapper = styled.div`
+  display: flex;
+`;
+
 const ThemeToggleLabel = styled.label`
-  position: absolute;
-  top: var(--spacing-sm);
-  left: var(--spacing-md);
   display: flex;
   align-items: center;
   gap: var(--spacing-xs);
@@ -50,12 +51,14 @@ const ThemeToggleInput = styled.input`
 
 const ThemeToggle = ({ checked, onChange }) => {
   return (
-    <ThemeToggleLabel>
-      <LightModeOutlinedIcon />
-      <ThemeToggleInput type="checkbox" checked={checked} onChange={onChange} />
-      <ThemeToggleSwitch />
-      <DarkModeOutlinedIcon />
-    </ThemeToggleLabel>
+    <ThemeToggleWrapper>
+      <ThemeToggleLabel>
+        <LightModeOutlinedIcon />
+        <ThemeToggleInput type="checkbox" checked={checked} onChange={onChange} />
+        <ThemeToggleSwitch />
+        <DarkModeOutlinedIcon />
+      </ThemeToggleLabel>
+    </ThemeToggleWrapper>
   );
 };
 

@@ -6,6 +6,12 @@ const StyledLoginContainer = styled.div`
   justify-content: center;
   align-items: center;
   height: calc(100vh - 100px - var(--spacing-xxl));
+
+  @media (max-width: 600px) {
+    h1 {
+      font-size: var(--fz-xxl)
+    }
+  }
 `;
 
 const StyledLoginButton = styled.a`

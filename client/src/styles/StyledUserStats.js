@@ -7,9 +7,13 @@ const StyledUserStats = styled.div`
 
   .stats {
     display: grid;
-    grid-template-columns: repeat(4, 125px);
+    grid-template-columns: repeat(4, 1fr);
+
+    @media (max-width: 600px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
     justify-content: center;
-    margin-top: 2rem;
+    margin: var(--spacing-xxl) 0 var(--spacing-xl);
 
     &__item {
       display: flex;
@@ -23,11 +27,20 @@ const StyledUserStats = styled.div`
       .num {
         font-size: 1.5rem;
         font-weight: bold;
+
+        @media (max-width: 450px) {
+          font-size: 1.25rem;
+        }
       }
 
       .num-label {
         text-transform: uppercase;
         font-size: 0.75rem;
+
+        @media (max-width: 450px) {
+          font-size: 0.65rem;
+        }
+
         letter-spacing: 1px;
         margin-top: 0.35rem;
       }

@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import styled from "styled-components/macro";
 import {
   accessToken,
   getUserProfile,
@@ -8,7 +7,7 @@ import {
   getUserMangaList,
 } from "./myanimelist";
 import { catchErrors } from "./utils";
-import { GlobalStyle } from "./styles";
+import { GlobalStyle, StyledContainer } from "./styles";
 import {
   LogoutButton,
   ThemeToggle,
@@ -19,12 +18,6 @@ import {
   UserMangaStats,
   Footer,
 } from "./components";
-
-const StyledContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
 
 const storedTheme = window.localStorage.getItem("malstats_theme");
 const storedList = window.localStorage.getItem("malstats_list");
@@ -104,12 +97,12 @@ function App() {
 
   return (
     <>
-      <GlobalStyle />
-      <header>
-        <ThemeToggle checked={theme === "dark"} onChange={handleThemeChange} />
-        {!loggedIn ? <></> : <LogoutButton />}
-      </header>
       <StyledContainer>
+        <GlobalStyle />
+        <header>
+          <ThemeToggle checked={theme === "dark"} onChange={handleThemeChange} />
+          {!loggedIn ? <></> : <LogoutButton />}
+        </header>
         {!loggedIn ? (
           <Login />
         ) : (
@@ -119,11 +112,14 @@ function App() {
                 <UserInfo profile={profile} />
                 {userStats && userAnimeList && userMangaList && (
                   <>
-                    <label htmlFor="list-select">View: </label>
-                    <select id="list-select" onChange={handleListChange} value={list}>
-                      <option value="anime">Anime</option>
-                      <option value="manga">Manga</option>
-                    </select>
+                    <div className="list-select">
+                      <label htmlFor="list-select">Viewing</label>
+                      <select id="list-select" onChange={handleListChange} value={list}>
+                        <option value="anime">Anime</option>
+                        <option value="manga">Manga</option>
+                      </select>
+                      <span> list</span>
+                    </div>
 
                     {list === "anime" ? (
                       <UserAnimeStats

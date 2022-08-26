@@ -1,20 +1,24 @@
 import styled from "styled-components/macro";
 
 const StyledMilestonesGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  grid-gap: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
 
   .media {
     display: flex;
     flex-direction: column;
     align-items: center;
+    flex-basis: 20%;
+    flex-grow: 0;
 
     &__img {
-      max-width: 200px;
+      width: 100%;
       border: 1px solid var(--color-gull-gray);
       border-radius: var(--border-radius-xs);
-      margin-bottom: var(--spacing-xxs)
+      margin-bottom: var(--spacing-xxs);
     }
 
     &__img:hover {
@@ -29,7 +33,25 @@ const StyledMilestonesGrid = styled.div`
     }
 
     &__label {
-      font-size: var(--fz-sm);
+      text-align: center;
+      font-size: var(--fz-xxs);
+    }
+  }
+
+  @media (max-width: 1000px) {
+    flex-wrap: wrap;
+    justify-content: center;
+
+    .media {
+      flex-basis: 100px;
+
+      &__title {
+        font-size: var(--fz-xs);
+      }
+
+      &__label {
+        font-size: 9px;
+      }
     }
   }
 `;

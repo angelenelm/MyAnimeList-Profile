@@ -2,10 +2,6 @@ import styled from "styled-components/macro";
 import { logout } from "../myanimelist";
 
 const StyledLogoutButton = styled.button`
-  position: absolute;
-  display: inline-block;
-  top: var(--spacing-sm);
-  right: var(--spacing-md);
   padding: var(--spacing-sm) var(--spacing-md);
   border: none;
   border-radius: var(--border-radius-xs);

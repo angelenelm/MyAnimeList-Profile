@@ -5,14 +5,10 @@ const StyledUserInfo = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  max-height: 500px;
-  min-height: 250px;
-  padding-top: var(--spacing-xxl);
-  margin-bottom: var(--spacing-xl);
-  z-index: -1;
+  margin-bottom: var(--spacing-xs);
 
   @media (max-width: 600px) {
-    padding-top: 90px;
+    padding-top: 3rem;
   }
 
   .header__img {
@@ -20,7 +16,7 @@ const StyledUserInfo = styled.div`
     height: 150px;
     object-fit: cover;
     border-radius: 100%;
-    border: 0.5rem solid var(--color-sapphire);
+    border: 2px solid var(--border-color);
   }
 
   h1 {

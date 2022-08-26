@@ -139,27 +139,29 @@ const UserAnimeStats = (props) => {
   return (
     <>
       {userStats && (
-        <StyledUserStats>
-          <div className="stats">
-            <div className="stats__item">
-              <span className="num">{userStats.completed}</span>
-              <span className="num-label">anime</span>
+        <>
+          <StyledUserStats>
+            <div className="stats">
+              <div className="stats__item">
+                <span className="num">{userStats.completed}</span>
+                <span className="num-label">anime</span>
+              </div>
+              <div className="stats__item">
+                <span className="num">{userStats.episodes_watched.toLocaleString("en-US")}</span>
+                <span className="num-label">episodes</span>
+              </div>
+              <div className="stats__item">
+                <span className="num">
+                  {Math.round(userStats.days_watched * 24).toLocaleString("en-US")}
+                </span>
+                <span className="num-label">hours</span>
+              </div>
+              <div className="stats__item">
+                <span className="num">{Object.entries(byStudio).length}</span>
+                <span className="num-label">studios</span>
+              </div>
             </div>
-            <div className="stats__item">
-              <span className="num">{userStats.episodes_watched.toLocaleString("en-US")}</span>
-              <span className="num-label">episodes</span>
-            </div>
-            <div className="stats__item">
-              <span className="num">
-                {Math.round(userStats.days_watched * 24).toLocaleString("en-US")}
-              </span>
-              <span className="num-label">hours</span>
-            </div>
-            <div className="stats__item">
-              <span className="num">{Object.entries(byStudio).length}</span>
-              <span className="num-label">studios</span>
-            </div>
-          </div>
+          </StyledUserStats>
 
           <StyledSection>
             <h2>
@@ -169,7 +171,9 @@ const UserAnimeStats = (props) => {
           </StyledSection>
 
           <StyledSection>
-            <h2>By Release Year</h2>
+            <h2>
+              <span>By Release Year</span>
+            </h2>
             <div className="chart">
               <ReleaseYearChart perYearData={perYear} theme={theme} />
             </div>
@@ -178,12 +182,16 @@ const UserAnimeStats = (props) => {
           <StyledSection>
             <div className="charts">
               <div className="charts__chart">
-                <h2>By Media Type</h2>
+                <h2>
+                  <span>By Media Type</span>
+                </h2>
                 <MediaTypeChart byMediaType={byType} theme={theme} />
               </div>
 
               <div className="charts__chart">
-                <h2>By Source</h2>
+                <h2>
+                  <span>By Source</span>
+                </h2>
                 <SourceChart bySource={bySource} theme={theme} />
               </div>
             </div>
@@ -192,22 +200,28 @@ const UserAnimeStats = (props) => {
           <StyledSection>
             <div className="charts">
               <div className="charts__chart">
-                <h2>By Genre</h2>
+                <h2>
+                  <span>By Genre</span>
+                </h2>
                 <HorizontalChart userDataset={byGenre} theme={theme} />
               </div>
 
               <div className="charts__chart">
-                <h2>By Studio</h2>
+                <h2>
+                  <span>By Studio</span>
+                </h2>
                 <HorizontalChart userDataset={byStudio} theme={theme} />
               </div>
             </div>
           </StyledSection>
 
           <StyledSection>
-            <h2>Milestones</h2>
+            <h2>
+              <span>Milestones</span>
+            </h2>
             <MilestonesGrid type="anime" mediaList={milestones} />
           </StyledSection>
-        </StyledUserStats>
+        </>
       )}
     </>
   );
