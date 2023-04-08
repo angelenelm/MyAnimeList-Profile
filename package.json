@@ -9,11 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "base64url": "^3.0.1",
     "next": "13.2.4",
+    "randomstring": "^1.2.3",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
   "devDependencies": {
+    "@types/node": "18.15.11",
+    "@types/react": "18.0.33",
     "eslint": "8.37.0",
     "eslint-config-next": "13.2.4",
     "sass": "^1.60.0"
