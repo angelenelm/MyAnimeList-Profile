@@ -1,8 +1,10 @@
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import styles from '../../styles/Profile.module.css';
 
 const Profile = (props) => {
-  const username = props.query.username;
+  const router = useRouter();
+  const { username } = router.query;
   const title = `MyAnimeList Stats | ${username}`;
 
   return (
