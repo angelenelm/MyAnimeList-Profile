@@ -1,13 +1,14 @@
 import Head from 'next/head';
-import styles from '../../styles/User.module.css';
+import styles from '../../styles/Profile.module.css';
 
 const Profile = (props) => {
   const username = props.query.username;
+  const title = `MyAnimeList Stats | ${username}`;
 
   return (
     <div className={styles.container}>
       <Head>
-        <title>MyAnimeList Stats</title>
+        <title>{title}</title>
       </Head>
 
       <main className={styles.main}>
