@@ -1,10 +1,12 @@
-import { setCookie, getCookie } from 'cookies-next';
+import type { NextApiRequest, NextApiResponse } from 'next';
+import { setCookie, getCookie, deleteCookie } from 'cookies-next';
+import { getProfile } from '../api/login';
 
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const REDIRECT_URI = process.env.REDIRECT_URI;
 
-const handler = async (req, res) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const codeVerifierCookie = getCookie('code_verifier', { req, res });
   const stateCookie = getCookie('state', { req, res });
   const code = req.query.code || null;
@@ -15,36 +17,40 @@ const handler = async (req, res) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: `Basic ${new Buffer.from(
+        Authorization: `Basic ${Buffer.from(
           `${CLIENT_ID}:${CLIENT_SECRET}`
         ).toString('base64')}`,
       },
       body: new URLSearchParams({
         grant_type: 'authorization_code',
-        code: code,
+        code: `${code}`,
         redirect_uri: REDIRECT_URI,
-        code_verifier: codeVerifierCookie,
+        code_verifier: `${codeVerifierCookie}`,
       }),
     });
 
     const data = await response.json();
-    const { token_type, expires_in, access_token, refresh_token } = data;
-    const expires = new Date().getTime() + expires_in;
+    const { expires_in, access_token, refresh_token } = data;
+
+    // access_token expires 1 hour from request time
+    // refresh_token expires 1 month from request time
+    const now = new Date();
+    const accessTokenExpiresIn = now.getTime() + expires_in;
+    const refreshTokenExpiresIn = new Date(now.setMonth(now.getMonth() + 1));
     setCookie('access_token', access_token, {
       req,
       res,
-      expires: new Date(expires),
+      expires: new Date(accessTokenExpiresIn),
     });
-    setCookie('refresh_token', refresh_token, { req, res });
-
-    const user = await fetch(`https://api.myanimelist.net/v2/users/@me`, {
-      headers: {
-        Authorization: `${token_type} ${access_token}`,
-      },
+    setCookie('refresh_token', refresh_token, {
+      req,
+      res,
+      expires: refreshTokenExpiresIn,
     });
-    const { name } = await user.json();
 
-    res.redirect(`http://localhost:3000/profile/${name}`);
+    const profile = await getProfile(req, res);
+
+    res.redirect(`http://localhost:3000/profile/${profile.name}`);
   } else {
     res.redirect('http://localhost:3000/');
   }

@@ -1,6 +1,30 @@
 import Head from 'next/head';
+import Link from 'next/link';
 import Image from 'next/image';
+import { getProfile } from './api/login';
+import { getCookies } from 'cookies-next';
 import styles from '../styles/Home.module.css';
+
+export const getServerSideProps = async ({ req, res }) => {
+  const { access_token, refresh_token } = getCookies({ req, res });
+
+  // If access_token and refresh_token cookies exist,
+  // user is logged in and should be redirected to profile/[id]
+  if (access_token && refresh_token) {
+    const profile = await getProfile(req, res);
+
+    return {
+      redirect: {
+        permanent: false,
+        destination: `/profile/${profile.name}`,
+      },
+    };
+  } else {
+    return {
+      props: {},
+    };
+  }
+};
 
 const Home = () => {
   return (
@@ -25,7 +49,7 @@ const Home = () => {
             @angelenelm
           </a>
         </h2>
-        <a href='http://localhost:3000/api/login'>Login</a>
+        <Link href='/api/login'>Login</Link>
       </main>
 
       <footer className={styles.footer}>
