@@ -46,7 +46,7 @@ const handler = async (req, res) => {
 
     res.redirect(`http://localhost:3000/profile/${name}`);
   } else {
-    res.redirect('http://localhost:3000/api/login');
+    res.redirect('http://localhost:3000/');
   }
 };
 
