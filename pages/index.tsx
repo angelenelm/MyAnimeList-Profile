@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Link from 'next/link';
 import Image from 'next/image';
 import styles from '../styles/Home.module.css';
 
@@ -25,7 +26,7 @@ const Home = () => {
             @angelenelm
           </a>
         </h2>
-        <a href='http://localhost:3000/api/login'>Login</a>
+        <Link href='/api/login'>Login</Link>
       </main>
 
       <footer className={styles.footer}>

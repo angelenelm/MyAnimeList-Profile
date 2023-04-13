@@ -1,10 +1,11 @@
+import type { NextApiRequest, NextApiResponse } from 'next';
 import { setCookie, getCookie } from 'cookies-next';
 
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const REDIRECT_URI = process.env.REDIRECT_URI;
 
-const handler = async (req, res) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const codeVerifierCookie = getCookie('code_verifier', { req, res });
   const stateCookie = getCookie('state', { req, res });
   const code = req.query.code || null;
@@ -15,15 +16,15 @@ const handler = async (req, res) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: `Basic ${new Buffer.from(
+        Authorization: `Basic ${Buffer.from(
           `${CLIENT_ID}:${CLIENT_SECRET}`
         ).toString('base64')}`,
       },
       body: new URLSearchParams({
         grant_type: 'authorization_code',
-        code: code,
+        code: `${code}`,
         redirect_uri: REDIRECT_URI,
-        code_verifier: codeVerifierCookie,
+        code_verifier: `${codeVerifierCookie}`,
       }),
     });
 

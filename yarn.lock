@@ -137,7 +137,7 @@
   "resolved" "https://registry.npmjs.org/@types/node/-/node-16.18.23.tgz"
   "version" "16.18.23"
 
-"@types/node@18.15.11":
+"@types/node@^18.15.11":
   "integrity" "sha512-E5Kwq2n4SbMzQOn6wnmBjuK9ouqlURrcZDVfbo9ftDDTFt3nk7ZKK4GMOzoYgnpQJKcxwQw+lGaBvvlMo0qN/Q=="
   "resolved" "https://registry.npmjs.org/@types/node/-/node-18.15.11.tgz"
   "version" "18.15.11"

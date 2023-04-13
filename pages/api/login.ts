@@ -1,3 +1,4 @@
+import type { NextApiRequest, NextApiResponse } from 'next';
 import { setCookie } from 'cookies-next';
 import Randomstring from 'randomstring';
 
@@ -7,7 +8,7 @@ const REDIRECT_URI = process.env.REDIRECT_URI;
 const code_verifier = Randomstring.generate(128);
 const state = Randomstring.generate(16);
 
-const handler = (req, res) => {
+const handler = (req: NextApiRequest, res: NextApiResponse) => {
   setCookie('state', state, { req, res });
   setCookie('code_verifier', code_verifier, { req, res });
 
