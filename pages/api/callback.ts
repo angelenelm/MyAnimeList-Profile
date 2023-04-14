@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { setCookie, getCookie, deleteCookie } from 'cookies-next';
-import { getProfile } from '../api/login';
+import { setCookie, getCookie } from 'cookies-next';
+import deleteAuthCookies from '../../utils/deleteAuthCookies';
+import getProfile from '../../utils/getProfile';
 
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
@@ -11,6 +12,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const stateCookie = getCookie('state', { req, res });
   const code = req.query.code || null;
   const state = req.query.state || null;
+
+  deleteAuthCookies(req, res);
 
   if (stateCookie === state) {
     const response = await fetch(`https://myanimelist.net/v1/oauth2/token`, {
@@ -41,15 +44,16 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       req,
       res,
       expires: new Date(accessTokenExpiresIn),
+      httpOnly: true,
     });
     setCookie('refresh_token', refresh_token, {
       req,
       res,
       expires: refreshTokenExpiresIn,
+      httpOnly: true,
     });
 
     const profile = await getProfile(req, res);
-
     res.redirect(`http://localhost:3000/profile/${profile.name}`);
   } else {
     res.redirect('http://localhost:3000/');

@@ -1,9 +1,10 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
-import { getProfile } from './api/login';
+import getProfile from '../utils/getProfile';
 import { getCookies } from 'cookies-next';
 import styles from '../styles/Home.module.css';
+import deleteAuthCookies from '../utils/deleteAuthCookies';
 
 export const getServerSideProps = async ({ req, res }) => {
   const { access_token, refresh_token } = getCookies({ req, res });
@@ -20,6 +21,10 @@ export const getServerSideProps = async ({ req, res }) => {
       },
     };
   } else {
+    // Cleans up cookies used for authentication
+    // if user did not complete login flow
+    deleteAuthCookies(req, res);
+
     return {
       props: {},
     };

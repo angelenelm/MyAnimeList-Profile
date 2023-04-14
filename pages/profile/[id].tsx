@@ -1,8 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
-import { getProfile } from '../api/login';
-import { getCookies, deleteCookie } from 'cookies-next';
+import getProfile from '../../utils/getProfile';
+import { getCookies } from 'cookies-next';
 import styles from '../../styles/Profile.module.css';
 
 export const getServerSideProps = async (context: {
@@ -13,10 +13,6 @@ export const getServerSideProps = async (context: {
   const { req, res, params } = context;
   const { access_token, refresh_token } = getCookies({ req, res });
   const profile = await getProfile(req, res);
-
-  // Delete cookies only used for authentication
-  deleteCookie('state', { req, res });
-  deleteCookie('code_verifier', { req, res });
 
   // Check if id in URL matches profile name and if token cookies exist
   // if not, redirect to profile/[id] URL with correct profile name
