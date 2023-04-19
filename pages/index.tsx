@@ -1,25 +1,35 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
-import { getProfile } from './api/login';
 import { getCookies } from 'cookies-next';
 import styles from '../styles/Home.module.css';
+import deleteAuthCookies from '../utils/deleteAuthCookies';
 
 export const getServerSideProps = async ({ req, res }) => {
   const { access_token, refresh_token } = getCookies({ req, res });
 
-  // If access_token and refresh_token cookies exist,
-  // user is logged in and should be redirected to profile/[id]
-  if (access_token && refresh_token) {
-    const profile = await getProfile(req, res);
+  // If refresh_token exists, user logged in recently and should
+  // be redirected to their profile page. Will refresh access_token
+  // first if expired
+  if (access_token) {
+    const response = await fetch(`https://api.myanimelist.net/v2/users/@me`, {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
+    });
+    const data = await response.json();
 
     return {
       redirect: {
         permanent: false,
-        destination: `/profile/${profile.name}`,
+        destination: `/profile/${data.name}`,
       },
     };
   } else {
+    // Cleans up cookies used for authentication
+    // if user did not complete login flow
+    deleteAuthCookies(req, res);
+
     return {
       props: {},
     };

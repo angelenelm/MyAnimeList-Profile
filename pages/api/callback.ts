@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { setCookie, getCookie, deleteCookie } from 'cookies-next';
-import { getProfile } from '../api/login';
+import { getCookie, setCookie } from 'cookies-next';
+import deleteAuthCookies from '../../utils/deleteAuthCookies';
 
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
@@ -11,6 +11,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const stateCookie = getCookie('state', { req, res });
   const code = req.query.code || null;
   const state = req.query.state || null;
+
+  // Clean up cookies only used for authentication
+  deleteAuthCookies(req, res);
 
   if (stateCookie === state) {
     const response = await fetch(`https://myanimelist.net/v1/oauth2/token`, {
@@ -30,27 +33,36 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     });
 
     const data = await response.json();
-    const { expires_in, access_token, refresh_token } = data;
 
-    // access_token expires 1 hour from request time
-    // refresh_token expires 1 month from request time
     const now = new Date();
-    const accessTokenExpiresIn = now.getTime() + expires_in;
+    const accessTokenExpiresIn = new Date(now.getTime() + data.expires_in);
     const refreshTokenExpiresIn = new Date(now.setMonth(now.getMonth() + 1));
-    setCookie('access_token', access_token, {
+
+    setCookie('access_token', data.access_token, {
       req,
       res,
-      expires: new Date(accessTokenExpiresIn),
+      expires: accessTokenExpiresIn,
+      httpOnly: true,
     });
-    setCookie('refresh_token', refresh_token, {
+
+    setCookie('refresh_token', data.refresh_token, {
       req,
       res,
       expires: refreshTokenExpiresIn,
+      httpOnly: true,
     });
 
-    const profile = await getProfile(req, res);
+    const malResponse = await fetch(
+      `https://api.myanimelist.net/v2/users/@me`,
+      {
+        headers: {
+          Authorization: `Bearer ${data.access_token}`,
+        },
+      }
+    );
+    const user = await malResponse.json();
 
-    res.redirect(`http://localhost:3000/profile/${profile.name}`);
+    res.redirect(`http://localhost:3000/profile/${user.name}`);
   } else {
     res.redirect('http://localhost:3000/');
   }
