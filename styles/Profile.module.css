@@ -12,6 +12,18 @@
   align-items: center;
 }
 
+.profile-image {
+  position: relative;
+  height: 150px;
+  width: 150px;
+  margin: 25px;
+}
+
+.profile-image img {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 .footer {
   display: flex;
   flex: 1;
