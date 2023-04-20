@@ -12,6 +12,11 @@
   align-items: center;
 }
 
+.social {
+  display: flex;
+  gap: 1rem;
+}
+
 .footer {
   display: flex;
   flex: 1;
