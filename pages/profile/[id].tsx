@@ -4,7 +4,14 @@ import Image from 'next/image';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getCookies } from 'cookies-next';
 import { getProfile } from '../../utils/getProfile';
+import Footer from '../../components/Footer';
 import styles from '../../styles/Profile.module.css';
+import {
+  LogoutOutlined,
+  LocationOnOutlined,
+  EventOutlined,
+} from '@mui/icons-material';
+import ThemeSwitch from '../../components/ThemeSwitch';
 
 export const getServerSideProps = async (context: {
   req: NextApiRequest;
@@ -39,7 +46,7 @@ export const getServerSideProps = async (context: {
 
 const Profile = (props: { profile: any }) => {
   const { profile } = props;
-  const title = `MyAnimeList Stats | ${profile.name}`;
+  const title = `${profile.name} | MyAnimeList Stats`;
 
   return (
     <div className={styles.container}>
@@ -47,9 +54,14 @@ const Profile = (props: { profile: any }) => {
         <title>{title}</title>
       </Head>
 
-      <main className={styles.main}>
-        <Link href='/api/logout'>Logout</Link>
-        <div className={styles['profile-image']}>
+      <header className={styles.header}>
+        <ThemeSwitch />
+        <Link href='/api/logout' className={styles.logout}>
+          <span>Logout</span>
+          <LogoutOutlined />
+        </Link>
+
+        <div className={styles['profile-picture']}>
           <Image
             src={profile.picture}
             alt={`Profile picture of MyAnimeList user ${profile.name}`}
@@ -59,28 +71,80 @@ const Profile = (props: { profile: any }) => {
           />
         </div>
 
-        <h1>{profile.name}</h1>
-        {profile.location && <span>Location: {profile.location}</span>}
-        <span>
-          User since
-          {` ${profile.joinedDate}`}
-        </span>
-        <span>Average score: {profile.avgAnimeScore}</span>
-        <span>{profile.numAnimeCompleted} anime completed</span>
-        <span>{profile.numDaysWatched * 24} hours watched</span>
+        <h1>
+          <a
+            href={`https://myanimelist.net/profile/${profile.name}`}
+            target='_blank'
+            rel='noopener noreferrer'>
+            {profile.name}
+          </a>
+        </h1>
 
-        <h3>Top 10 Completed</h3>
-        <ol>
-          {profile.animeList.map(
-            (item: any, index: number) =>
-              index < 10 && (
-                <li key={index}>
-                  {item.titles.en ? item.titles.en : item.titles.romaji}
-                </li>
-              )
+        <div className={styles.info}>
+          {profile.location && (
+            <div className={styles.item}>
+              <LocationOnOutlined />
+              <span>{profile.location}</span>
+            </div>
           )}
-        </ol>
+          <div className={styles.item}>
+            <EventOutlined />
+            <span>
+              Since
+              {` ${profile.joinedDate}`}
+            </span>
+          </div>
+        </div>
+
+        <div className={styles['stat-cards']}>
+          <div className={styles.card}>
+            <span className={styles.stat}>
+              {Math.round(profile.avgAnimeScore)}/10
+            </span>
+            <p className={styles.label}>Avg score</p>
+          </div>
+          <div className={styles.card}>
+            <span className={styles.stat}>{profile.numAnimeCompleted}</span>
+            <p className={styles.label}>completed</p>
+          </div>
+          <div className={styles.card}>
+            <span className={styles.stat}>
+              {Math.round(profile.numDaysWatched * 24)}
+            </span>
+            <p className={styles.label}>hours watched</p>
+          </div>
+        </div>
+      </header>
+
+      <main className={styles.main}>
+        <section>
+          <h3>Top 10</h3>
+          <div className={styles['top-ten']}>
+            {profile.animeList.map(
+              (item: any, index: number) =>
+                index < 10 && (
+                  <div key={index} className={styles.item}>
+                    <div className={styles.picture}>
+                      <Image
+                        src={item.pictures.large}
+                        alt={`Main picture for ${item.titles.romaji}`}
+                        fill
+                        priority
+                        sizes='200px'
+                      />
+                    </div>
+
+                    <span className={styles.title}>
+                      {item.titles.en ? item.titles.en : item.titles.romaji}
+                    </span>
+                    <span className={styles.score}>{item.score}/10</span>
+                  </div>
+                )
+            )}
+          </div>
+        </section>
       </main>
+      <Footer />
     </div>
   );
 };
