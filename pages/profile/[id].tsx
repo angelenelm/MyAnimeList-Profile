@@ -45,7 +45,7 @@ export async function getServerSideProps(context: {
   }
 }
 
-export default function Profile(props: { profile: any }) {
+function Profile(props: { profile: any }) {
   const { profile } = props;
   const title = `${profile.name} | MyAnimeList Stats`;
 
@@ -152,3 +152,5 @@ export default function Profile(props: { profile: any }) {
     </div>
   );
 }
+
+export default Profile;
