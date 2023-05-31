@@ -1,9 +1,9 @@
+import type { NextApiRequest, NextApiResponse } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
-import type { NextApiRequest, NextApiResponse } from 'next';
 import { getCookies } from 'cookies-next';
-import { getProfile } from '../../utils/getProfile';
+import getProfile from '../../utils/getProfile';
 import Footer from '../../components/Footer';
 import styles from '../../styles/Profile.module.css';
 import {
@@ -13,11 +13,11 @@ import {
 } from '@mui/icons-material';
 import ThemeSwitch from '../../components/ThemeSwitch';
 
-export const getServerSideProps = async (context: {
+export async function getServerSideProps(context: {
   req: NextApiRequest;
   res: NextApiResponse;
   params: { id: string };
-}) => {
+}) {
   const { req, res, params } = context;
   const { access_token } = getCookies({ req, res });
 
@@ -31,7 +31,8 @@ export const getServerSideProps = async (context: {
     };
   }
 
-  let profile = await getProfile(req, res);
+  const profile = await getProfile(req, res);
+
   // Check if id in URL matches profile name; if not, 404
   if (params.id !== profile.name) {
     return {
@@ -42,9 +43,9 @@ export const getServerSideProps = async (context: {
       props: { profile },
     };
   }
-};
+}
 
-const Profile = (props: { profile: any }) => {
+function Profile(props: { profile: any }) {
   const { profile } = props;
   const title = `${profile.name} | MyAnimeList Stats`;
 
@@ -55,7 +56,7 @@ const Profile = (props: { profile: any }) => {
       </Head>
 
       <header className={styles.header}>
-        <ThemeSwitch />
+        {/* <ThemeSwitch /> */}
         <Link href='/api/logout' className={styles.logout}>
           <span>Logout</span>
           <LogoutOutlined />
@@ -64,7 +65,7 @@ const Profile = (props: { profile: any }) => {
         <div className={styles['profile-picture']}>
           <Image
             src={profile.picture}
-            alt={`Profile picture of MyAnimeList user ${profile.name}`}
+            alt={`Profile picture of MyAnimeList user ${profile.name}.`}
             fill
             priority
             sizes='150px'
@@ -89,20 +90,11 @@ const Profile = (props: { profile: any }) => {
           )}
           <div className={styles.item}>
             <EventOutlined />
-            <span>
-              Since
-              {` ${profile.joinedDate}`}
-            </span>
+            <span>{`Since ${profile.joinedDate}`}</span>
           </div>
         </div>
 
         <div className={styles['stat-cards']}>
-          <div className={styles.card}>
-            <span className={styles.stat}>
-              {Math.round(profile.avgAnimeScore)}/10
-            </span>
-            <p className={styles.label}>Avg score</p>
-          </div>
           <div className={styles.card}>
             <span className={styles.stat}>{profile.numAnimeCompleted}</span>
             <p className={styles.label}>completed</p>
@@ -111,42 +103,52 @@ const Profile = (props: { profile: any }) => {
             <span className={styles.stat}>
               {Math.round(profile.numDaysWatched * 24)}
             </span>
-            <p className={styles.label}>hours watched</p>
+            <p className={styles.label}>hours</p>
+          </div>
+          <div className={styles.card}>
+            <span className={styles.stat}>
+              {Math.round(profile.avgAnimeScore)}/10
+            </span>
+            <p className={styles.label}>average score</p>
           </div>
         </div>
       </header>
 
       <main className={styles.main}>
-        <section>
+        <section className={styles.section}>
           <h3>Top 10</h3>
-          <div className={styles['top-ten']}>
+
+          <ul className={styles['top-ten']}>
             {profile.animeList.map(
               (item: any, index: number) =>
                 index < 10 && (
-                  <div key={index} className={styles.item}>
-                    <div className={styles.picture}>
-                      <Image
-                        src={item.pictures.large}
-                        alt={`Main picture for ${item.titles.romaji}`}
-                        fill
-                        priority
-                        sizes='200px'
-                      />
+                  <li key={index} className={styles.item}>
+                    <div className={styles.poster}>
+                      <a
+                        href={`https://myanimelist.net/anime/${item.id}`}
+                        target='_blank'
+                        rel='noopener noreferrer'>
+                        <img
+                          src={item.pictures.large}
+                          alt={`Poster for the anime ${
+                            item.titles.en ? item.titles.en : item.titles.romaji
+                          }.`}
+                        />
+                      </a>
                     </div>
-
-                    <span className={styles.title}>
-                      {item.titles.en ? item.titles.en : item.titles.romaji}
-                    </span>
                     <span className={styles.score}>{item.score}/10</span>
-                  </div>
+                    <span className={styles.title}>
+                      {`${item.titles.en ? item.titles.en : item.titles.romaji} (${item.startDate.substring(0, 4)})`}
+                    </span>
+                  </li>
                 )
             )}
-          </div>
+          </ul>
         </section>
       </main>
       <Footer />
     </div>
   );
-};
+}
 
 export default Profile;
