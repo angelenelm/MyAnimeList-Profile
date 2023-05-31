@@ -4,9 +4,42 @@ import { getCookies } from 'cookies-next';
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 
+// Profile object type
+interface Profile {
+  name: string; // name
+  location?: string; // location
+  joinedDate?: string; // joined_at
+  picture?: string; // picture
+  numAnimeCompleted?: number; // anime_statistics.num_items_completed
+  numDaysWatched?: number; // anime_statistics.num_days_watched
+  avgAnimeScore?: number; // anime_statistics.mean_score
+  animeList: Anime[];
+}
+
+// Anime object type
+interface Anime {
+  id: number; // id
+  titles: { en: string; ja: string; romaji: string }; // title & alternative_titles
+  pictures: { medium: string; large: string }; // main_picture
+  listStatus: string; // my_list_status.status
+  score: number; // my_list_status.score
+  startDate: string; // start_date
+  endDate: string; // end_date
+  avgScore: number; // mean
+  rank: number; // rank
+  popularity: number; // popularity
+  mediaType: string; // media_type
+  genres: string[]; // genres
+  source: string; // source
+  studios: string[]; // studios
+}
+
 // Obtains information for logged-in user
 // Refreshes access and refresh token when current access token expires
-const getProfile = async (req: NextApiRequest, res: NextApiResponse) => {
+export default async function getProfile(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   const { access_token } = getCookies({ req, res });
   const requestURI = `https://api.myanimelist.net/v2`;
   const headers = {
@@ -15,21 +48,9 @@ const getProfile = async (req: NextApiRequest, res: NextApiResponse) => {
     },
   };
 
-  // Profile object type
-  interface Profile {
-    name: string; // name
-    location?: string; // location
-    joinedDate?: string; // joined_at
-    picture?: string; // picture
-    numAnimeCompleted?: number; // anime_statistics.num_items_completed
-    numDaysWatched?: number; // anime_statistics.num_days_watched
-    avgAnimeScore?: number; // anime_statistics.mean_score
-    animeList: Anime[];
-  }
-
+  // Get user's username, location, join date, and picture
   let profile = {} as Profile;
 
-  // Get user's username, location, join date, and picture
   const profileResponse = await fetch(
     `${requestURI}/users/@me?fields=anime_statistics`,
     headers
@@ -49,27 +70,9 @@ const getProfile = async (req: NextApiRequest, res: NextApiResponse) => {
   profile.numDaysWatched = anime_statistics?.num_days_watched;
   profile.avgAnimeScore = anime_statistics?.mean_score;
 
-  // Anime object type
-  interface Anime {
-    id: number; // id
-    titles: { en: string; ja: string; romaji: string }; // title & alternative_titles
-    pictures: { medium: string; large: string }; // main_picture
-    listStatus: string; // my_list_status.status
-    score: number; // my_list_status.score
-    startDate: string; // start_date
-    endDate: string; // end_date
-    avgScore: number; // mean
-    rank: number; // rank
-    popularity: number; // popularity
-    mediaType: string; // media_type
-    genres: string[]; // genres
-    source: string; // source
-    studios: string[]; // studios
-  }
-
+  // Get user's anime list
   let animeList: Anime[] = [];
 
-  // Get user's anime list
   const animeListResponse = await fetch(
     `${requestURI}/users/@me/animelist?limit=100&status=completed&sort=list_score`,
     headers
@@ -94,8 +97,8 @@ const getProfile = async (req: NextApiRequest, res: NextApiResponse) => {
     anime.id = response.id; // id
     anime.titles = {
       // title & alternative_titles.en & alternative_titles.ja
-      en: response.alternative_titles.en,
-      ja: response.alternative_titles.ja,
+      en: response.alternative_titles?.en,
+      ja: response.alternative_titles?.ja,
       romaji: response.title,
     };
     anime.pictures = {
@@ -121,6 +124,4 @@ const getProfile = async (req: NextApiRequest, res: NextApiResponse) => {
   profile.animeList = animeList;
 
   return profile;
-};
-
-export { getProfile };
+}

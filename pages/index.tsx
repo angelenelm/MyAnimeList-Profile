@@ -2,10 +2,9 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { getCookies } from 'cookies-next';
 import deleteAuthCookies from '../utils/deleteAuthCookies';
-import Footer from '../components/Footer';
 import styles from '../styles/Home.module.css';
 
-export const getServerSideProps = async ({ req, res }) => {
+export async function getServerSideProps({ req, res }) {
   const { access_token } = getCookies({ req, res });
 
   if (access_token) {
@@ -30,9 +29,9 @@ export const getServerSideProps = async ({ req, res }) => {
       props: {},
     };
   }
-};
+}
 
-const Home = () => {
+export default function Home() {
   return (
     <div className={styles.container}>
       <Head>
@@ -47,7 +46,7 @@ const Home = () => {
       <main className={styles.main}>
         <h1 className={styles.title}>MyAnimeList Stats</h1>
         <h2>
-          by{' '}
+          {`by `}
           <a
             href='https://github.com/angelenelm'
             target='_blank'
@@ -59,6 +58,4 @@ const Home = () => {
       </main>
     </div>
   );
-};
-
-export default Home;
+}
