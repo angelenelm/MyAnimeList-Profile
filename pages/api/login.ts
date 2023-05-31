@@ -8,7 +8,7 @@ const REDIRECT_URI = process.env.REDIRECT_URI;
 const code_verifier = Randomstring.generate(128);
 const state = Randomstring.generate(16);
 
-const handler = (req: NextApiRequest, res: NextApiResponse) => {
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
   setCookie('state', state, { req, res, httpOnly: true });
   setCookie('code_verifier', code_verifier, { req, res, httpOnly: true });
 
@@ -21,6 +21,4 @@ const handler = (req: NextApiRequest, res: NextApiResponse) => {
   });
 
   res.redirect(`https://myanimelist.net/v1/oauth2/authorize?${params}`);
-};
-
-export default handler;
+}

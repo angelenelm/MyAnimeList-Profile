@@ -6,7 +6,10 @@ const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const REDIRECT_URI = process.env.REDIRECT_URI;
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   const codeVerifierCookie = getCookie('code_verifier', { req, res });
   const stateCookie = getCookie('state', { req, res });
   const code = req.query.code || null;
@@ -66,6 +69,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   } else {
     res.redirect('http://localhost:3000/');
   }
-};
-
-export default handler;
+}

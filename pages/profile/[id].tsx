@@ -45,7 +45,7 @@ export async function getServerSideProps(context: {
   }
 }
 
-function Profile(props: { profile: any }) {
+export default function Profile(props: { profile: any }) {
   const { profile } = props;
   const title = `${profile.name} | MyAnimeList Stats`;
 
@@ -138,7 +138,9 @@ function Profile(props: { profile: any }) {
                     </div>
                     <span className={styles.score}>{item.score}/10</span>
                     <span className={styles.title}>
-                      {`${item.titles.en ? item.titles.en : item.titles.romaji} (${item.startDate.substring(0, 4)})`}
+                      {`${
+                        item.titles.en ? item.titles.en : item.titles.romaji
+                      } (${item.startDate.substring(0, 4)})`}
                     </span>
                   </li>
                 )
@@ -150,5 +152,3 @@ function Profile(props: { profile: any }) {
     </div>
   );
 }
-
-export default Profile;

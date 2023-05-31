@@ -1,4 +1,4 @@
-const Footer = () => {
+export default function Footer() {
   return (
     <footer>
       <span>
@@ -13,6 +13,4 @@ const Footer = () => {
       </span>
     </footer>
   );
-};
-
-export default Footer;
+}
