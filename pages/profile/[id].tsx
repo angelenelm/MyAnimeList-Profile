@@ -150,6 +150,7 @@ function Profile(props: { profile: any }) {
 
         <section className={styles.section}>
           <h3>By Release Year</h3>
+          
         </section>
       </main>
       <Footer />
