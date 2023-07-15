@@ -7,6 +7,10 @@ const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const REDIRECT_URI = process.env.REDIRECT_URI;
 const BASE_URL = process.env.BASE_URL;
 
+export const config = {
+  'runtime': 'edge'
+};
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
