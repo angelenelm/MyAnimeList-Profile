@@ -5,6 +5,7 @@ import deleteAuthCookies from '../../utils/deleteAuthCookies';
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const REDIRECT_URI = process.env.REDIRECT_URI;
+const BASE_URL = process.env.BASE_URL;
 
 export default async function handler(
   req: NextApiRequest,
@@ -65,8 +66,8 @@ export default async function handler(
     );
     const user = await malResponse.json();
 
-    res.redirect(`http://localhost:3000/profile/${user.name}`);
+    res.redirect(`${BASE_URL}/profile/${user.name}`);
   } else {
-    res.redirect('http://localhost:3000/');
+    res.redirect(`${BASE_URL}`);
   }
 }

@@ -15,10 +15,12 @@
     "@mui/material": "^5.12.1",
     "@types/randomstring": "^1.1.8",
     "base64url": "^3.0.1",
+    "chart.js": "^4.3.0",
     "cookies-next": "^2.1.1",
     "next": "13.2.4",
     "randomstring": "^1.2.3",
     "react": "18.2.0",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "18.2.0"
   },
   "devDependencies": {

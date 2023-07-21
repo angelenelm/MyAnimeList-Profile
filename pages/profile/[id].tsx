@@ -13,6 +13,26 @@ import {
 } from '@mui/icons-material';
 import ThemeSwitch from '../../components/ThemeSwitch';
 
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Bar } from 'react-chartjs-2';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
 export async function getServerSideProps(context: {
   req: NextApiRequest;
   res: NextApiResponse;
@@ -48,6 +68,11 @@ export async function getServerSideProps(context: {
 function Profile(props: { profile: any }) {
   const { profile } = props;
   const title = `${profile.name} | MyAnimeList Stats`;
+  const yearLabels = Array.from(
+    new Set(
+      profile.animeList.map((item: any) => item.startDate.substring(0, 4))
+    )
+  ).sort();
 
   return (
     <div className={styles.container}>
@@ -146,6 +171,27 @@ function Profile(props: { profile: any }) {
                 )
             )}
           </ul>
+        </section>
+
+        <section className={styles.section}>
+          <h3>By Release Year</h3>
+
+          <Bar
+            data={{
+              labels: yearLabels,
+              datasets: [
+                {
+                  label: '',
+                  data: yearLabels.map(
+                    (year: string) =>
+                      profile.animeList.filter(
+                        (item) => item.startDate.substring(0, 4) === year
+                      ).length
+                  ),
+                },
+              ],
+            }}
+          />
         </section>
       </main>
       <Footer />
