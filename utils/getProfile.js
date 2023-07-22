@@ -1,9 +1,9 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
 import { getCookies } from 'cookies-next';
 
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 
+/*
 // Profile object type
 interface Profile {
   name: string; // name
@@ -33,13 +33,11 @@ interface Anime {
   source: string; // source
   studios: string[]; // studios
 }
+*/
 
 // Obtains information for logged-in user
 // Refreshes access and refresh token when current access token expires
-export default async function getProfile(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+export default async function getProfile(req, res) {
   const { access_token } = getCookies({ req, res });
   const requestURI = `https://api.myanimelist.net/v2`;
   const headers = {
@@ -49,7 +47,7 @@ export default async function getProfile(
   };
 
   // Get user's username, location, join date, and picture
-  let profile = {} as Profile;
+  let profile = {};
 
   const profileResponse = await fetch(
     `${requestURI}/users/@me?fields=anime_statistics`,
@@ -71,7 +69,7 @@ export default async function getProfile(
   profile.avgAnimeScore = anime_statistics?.mean_score;
 
   // Get user's anime list
-  let animeList: Anime[] = [];
+  let animeList = [];
 
   const animeListResponse = await fetch(
     `${requestURI}/users/@me/animelist?limit=100&status=completed&sort=list_score`,
@@ -82,7 +80,7 @@ export default async function getProfile(
   // Obtain details for all anime in anime list response for profile page
   // Using Promise.all() for concurrent fetch requests for much better loading time
   const responses = await Promise.all(
-    data.map(async (item: any) => {
+    data.map(async (item) => {
       const response = await fetch(
         `${requestURI}/anime/${item.node.id}?fields=alternative_titles,start_date,end_date,mean,rank,popularity,media_type,genres,my_list_status,source,studios`,
         headers
@@ -93,7 +91,7 @@ export default async function getProfile(
   );
 
   for (const response of responses) {
-    let anime = {} as Anime;
+    let anime = {};
     anime.id = response.id; // id
     anime.titles = {
       // title & alternative_titles.en & alternative_titles.ja

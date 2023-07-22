@@ -1,4 +1,3 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -33,11 +32,7 @@ ChartJS.register(
   Legend
 );
 
-export async function getServerSideProps(context: {
-  req: NextApiRequest;
-  res: NextApiResponse;
-  params: { id: string };
-}) {
+export async function getServerSideProps(context) {
   const { req, res, params } = context;
   const { access_token } = getCookies({ req, res });
 
@@ -65,14 +60,24 @@ export async function getServerSideProps(context: {
   }
 }
 
-function Profile(props: { profile: any }) {
+function Profile(props) {
   const { profile } = props;
   const title = `${profile.name} | MyAnimeList Stats`;
   const yearLabels = Array.from(
-    new Set(
-      profile.animeList.map((item: any) => item.startDate.substring(0, 4))
-    )
+    new Set(profile.animeList.map((anime) => anime.startDate.substring(0, 4)))
   ).sort();
+
+  let genreCount = {};
+  profile.animeList.forEach((anime) => {
+    anime.genres.forEach(
+      (genre) => (genreCount[genre.name] = genreCount[genre.name] + 1 || 1)
+    );
+  });
+  genreCount = Object.fromEntries(
+    Object.entries(genreCount)
+      .filter(([genre, count]) => count >= 20)
+      .sort((a, b) => b[1] - a[1])
+  );
 
   return (
     <div className={styles.container}>
@@ -145,27 +150,29 @@ function Profile(props: { profile: any }) {
 
           <ul className={styles['top-ten']}>
             {profile.animeList.map(
-              (item: any, index: number) =>
+              (anime, index) =>
                 index < 10 && (
                   <li key={index} className={styles.item}>
                     <div className={styles.poster}>
                       <a
-                        href={`https://myanimelist.net/anime/${item.id}`}
+                        href={`https://myanimelist.net/anime/${anime.id}`}
                         target='_blank'
                         rel='noopener noreferrer'>
                         <img
-                          src={item.pictures.large}
+                          src={anime.pictures.large}
                           alt={`Poster for the anime ${
-                            item.titles.en ? item.titles.en : item.titles.romaji
+                            anime.titles.en
+                              ? anime.titles.en
+                              : anime.titles.romaji
                           }.`}
                         />
                       </a>
                     </div>
-                    <span className={styles.score}>{item.score}/10</span>
+                    <span className={styles.score}>{anime.score}/10</span>
                     <span className={styles.title}>
                       {`${
-                        item.titles.en ? item.titles.en : item.titles.romaji
-                      } (${item.startDate.substring(0, 4)})`}
+                        anime.titles.en ? anime.titles.en : anime.titles.romaji
+                      } (${anime.startDate.substring(0, 4)})`}
                     </span>
                   </li>
                 )
@@ -183,11 +190,28 @@ function Profile(props: { profile: any }) {
                 {
                   label: '',
                   data: yearLabels.map(
-                    (year: string) =>
+                    (year) =>
                       profile.animeList.filter(
-                        (item) => item.startDate.substring(0, 4) === year
+                        (anime) => anime.startDate.substring(0, 4) === year
                       ).length
                   ),
+                },
+              ],
+            }}
+          />
+        </section>
+
+        <section className={styles.section}>
+          <h3>Top Genres</h3>
+
+          <Bar
+            options={{ indexAxis: 'y' }}
+            data={{
+              labels: Object.keys(genreCount),
+              datasets: [
+                {
+                  label: '',
+                  data: Object.values(genreCount),
                 },
               ],
             }}
