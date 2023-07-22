@@ -20,6 +20,6 @@
     "**/*.tsx",
     "pages/index.jsx",
     "next.config.js"
-  ],
+, "pages/profile/[id].jsx", "pages/_app.jsx", "utils/deleteAuthCookies.js", "utils/getProfile.js"  ],
   "exclude": ["node_modules"]
 }
