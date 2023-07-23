@@ -13,6 +13,7 @@ import {
 import ThemeSwitch from '../../components/ThemeSwitch';
 
 import {
+  defaults,
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
@@ -31,6 +32,8 @@ ChartJS.register(
   Tooltip,
   Legend
 );
+
+defaults.font.family = 'Inter';
 
 export async function getServerSideProps(context) {
   const { req, res, params } = context;
